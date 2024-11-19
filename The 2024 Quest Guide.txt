@@ -1,4 +1,7 @@
-﻿This document was created in June 2023 in an effort to consolidate all the various quest guide docs out there. Some quests have since been added to the game and no guide has been created for it yet. Some quests have been altered, rendering previous guides incorrect. If you happen to have a guide for a missing or altered quest and feel like helping, seek out Exosphere or Nils on discord.
+ONLINE VERSION, LIKELY MORE UP-TO-DATE:
+https://docs.google.com/document/d/1L1-f3_z-p-eQgaecmNyRty4qAlpSZq-6nLsGZ5QKYiU/edit?usp=sharing
+
+This document was created in June 2023 in an effort to consolidate all the various quest guide docs out there. Some quests have since been added to the game and no guide has been created for it yet. Some quests have been altered, rendering previous guides incorrect. If you happen to have a guide for a missing or altered quest and feel like helping, seek out Exosphere or Nils on discord.
 
 
 A + next to the quest number means the walkthrough is confirmed to be working.
