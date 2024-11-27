@@ -42,6 +42,7 @@ function kill(){
  //   	}
     },100)
 }
+// Adds +1 to the room counter after a room is cleared
     gwc.userdata.roomCounter+=1;
     
 // Follow the below example to make your path. Add rooms as needed. The example path will clear the first row of krougs.
