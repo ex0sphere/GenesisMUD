@@ -9,13 +9,21 @@ gwc.userdata.enemy=(args['*'])
 
 //Pattern: ka
 let enemy = gwc.userdata.enemy
-if(enemy.includes("elf")){
-	enemy = enemy.replace("elf","elve") // fix for elf targeting
+
+if(enemy.endsWith("f")){
+	enemy = enemy.replace(/f$/g,"ve") // fix for elves and dwarves
+}
+if(enemy.endsWith("y")){
+  enemy = enemy.replace(/y$/g,"ie") // fix for trolobies and other stuff
 }
 gwc.trigger.enable("Enemy Counter")
 gwc.connection.send("count "+enemy+"s")
 
 // Directional aliases for manual use:
+
+//Pattern: dk
+gwc.connection.send("d",true);
+gwc.connection.send("ka",true)
 
 //Pattern: ek
 gwc.connection.send("e",true);
@@ -43,6 +51,10 @@ gwc.connection.send("ka",true)
 
 //Pattern: swk
 gwc.connection.send("sw",true);
+gwc.connection.send("ka",true)
+
+//Pattern: uk
+gwc.connection.send("u",true);
 gwc.connection.send("ka",true)
 
 //Pattern: wk
