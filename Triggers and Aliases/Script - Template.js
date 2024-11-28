@@ -14,6 +14,7 @@ Execute the following javascript:
 
   gwc.userdata.roomCounter = 0 // Starts the room counter
   gwc.connection.send('kill kroug') // Change to your enemy of choice
+  gwc.userdata.enemy = 'kroug' // For use with my Enemy Counter.
   switch(args[1]){
     case 'on':gwc.trigger.enable('Your Trigger Name Here');break;
     case 'off':gwc.trigger.disable('Your Trigger Name Here');break;
@@ -35,9 +36,10 @@ let occupied = args[1].includes("fighting")
 // Kill command will only be sent if no one is already fighting in the room.
 function kill(){
     setTimeout(function(){
-      append("Room: "+gwc.userdata.Counter);
+      append("Room: "+gwc.userdata.roomCounter);
       if (occupied === false){
-      send("!kill kroug") // Change to your enemy of choice
+      send("!kill kroug") // Change to your enemy of choice if NOT using Enemy Counter
+	  //send("ka", true) -- use this command instead if using my Enemy Counter.
       }
  //   	}
     },100)
