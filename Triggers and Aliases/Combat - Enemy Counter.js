@@ -8,50 +8,46 @@ gwc.userdata.enemy=(args['*'])
 // 2. ALIAS: ka - Count enemies in a room and attack them all
 
 //Pattern: ka
+let enemy = gwc.userdata.enemy
+if(enemy.includes("elf")){
+	enemy = enemy.replace("elf","elve") // fix for elf targeting
+}
 gwc.trigger.enable("Enemy Counter")
-gwc.connection.send("count "+gwc.userdata.enemy+"s")
+gwc.connection.send("count "+enemy+"s")
 
 // Directional aliases for manual use:
 
 //Pattern: ek
-gwc.trigger.enable("Enemy Counter")
 gwc.connection.send("e",true);
-gwc.connection.send("count "+gwc.userdata.enemy+"s")
+gwc.connection.send("ka",true)
 
 //Pattern: nek
-gwc.trigger.enable("Enemy Counter")
 gwc.connection.send("ne",true);
-gwc.connection.send("count "+gwc.userdata.enemy+"s")
+gwc.connection.send("ka",true)
 
 //Pattern: nk
-gwc.trigger.enable("Enemy Counter")
 gwc.connection.send("n",true);
-gwc.connection.send("count "+gwc.userdata.enemy+"s")
+gwc.connection.send("ka",true)
 
 //Pattern: nwk
-gwc.trigger.enable("Enemy Counter")
 gwc.connection.send("nw",true);
-gwc.connection.send("count "+gwc.userdata.enemy+"s")
+gwc.connection.send("ka",true)
 
 //Pattern: sek
-gwc.trigger.enable("Enemy Counter")
 gwc.connection.send("se",true);
-gwc.connection.send("count "+gwc.userdata.enemy+"s")
+gwc.connection.send("ka",true)
 
 //Pattern: sk
-gwc.trigger.enable("Enemy Counter")
 gwc.connection.send("s",true);
-gwc.connection.send("count "+gwc.userdata.enemy+"s")
+gwc.connection.send("ka",true)
 
 //Pattern: swk
-gwc.trigger.enable("Enemy Counter")
 gwc.connection.send("sw",true);
-gwc.connection.send("count "+gwc.userdata.enemy+"s")
+gwc.connection.send("ka",true)
 
 //Pattern: wk
-gwc.trigger.enable("Enemy Counter")
 gwc.connection.send("w",true);
-gwc.connection.send("count "+gwc.userdata.enemy+"s")
+gwc.connection.send("ka",true)
 
 /* ------------------- */
 
