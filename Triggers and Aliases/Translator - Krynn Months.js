@@ -1,10 +1,11 @@
 /*Name: Translator - Krynn Months
 Type: regexp
-Pattern: (Aelmont|Rannmont|Mishamont|Chislmont|Bran|Corij|Argon|Sirrimont|Reorxmont|Hiddumont|H&#39;rarmont|Phoenix) in the year
+Pattern: (Aelmont|Rannmont|Mishamont|Chislmont|Bran|Corij|Argon|Sirrimont|Reorxmont|Hiddumont|rarmont|Phoenix) in the year
 
-Execute the following javascript:
+Execute the following javascript: 
 */
-  const months = {
+
+const months = {
   "Aelmont":"(January)",
   "Rannmont":"(February)",
   "Mishamont":"(March)",
@@ -15,9 +16,9 @@ Execute the following javascript:
   "Sirrimont":"(August)",
   "Reorxmont":"(September)",
   "Hiddumont":"(October)",
-  "H'rarmont":"(November)",
+  "rarmont":"(November)", // It's H'rarmont but webclient hates apostrophes
   "Phoenix":"(December)"
   }
   
-  gwc.output.replace(args[1],args[1] + ' ' + '<span style="color:#919191">' + months[args[1]]+'</span>',true);
+gwc.output.replace(args[1],args[1] + ' ' + '<span style="color:#919191">' + months[args[1]]+'</span>',true);
 
