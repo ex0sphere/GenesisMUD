@@ -1,6 +1,9 @@
 /*
 !!! DISCLAIMER: Botting is forbidden in Genesis MUD. You may face deletion if you are found scripting while inattentive.
 
+AUTHOR: Exosphere
+Contains: 1 trigger, 1 alias
+
 USAGE: 
 1. Make your alias and trigger as below.
 2. Go to your starting room.
@@ -14,7 +17,7 @@ Execute the following javascript:
 
   gwc.userdata.roomCounter = 0 // Starts the room counter
   gwc.connection.send('kill kroug') // Change to your enemy of choice
-  gwc.userdata.enemy = 'kroug' // For use with my Enemy Counter.
+  gwc.userdata.enemy = 'kroug' // For use with Attack All.
   switch(args[1]){
     case 'on':gwc.trigger.enable('Your Trigger Name Here');break;
     case 'off':gwc.trigger.disable('Your Trigger Name Here');break;
@@ -38,8 +41,8 @@ function kill(){
     setTimeout(function(){
       append("Room: "+gwc.userdata.roomCounter);
       if (occupied === false){
-      send("!kill kroug") // Change to your enemy of choice if NOT using Enemy Counter
-	  //send("ka", true) -- use this command instead if using my Enemy Counter.
+      send("!kill kroug") // Change to your enemy of choice if NOT using Attack All
+	  //send("ka", true) -- use this command instead if using Attack All.
       }
  //   	}
     },100)
