@@ -1,6 +1,8 @@
 /*
 ORIGINAL AUTHOR: Kelrhys
 UPDATED BY: Exosphere
+Contains: 1 alias
+
 This is an updated version of Log.txt that lets you name your logs.
 
 USAGE:

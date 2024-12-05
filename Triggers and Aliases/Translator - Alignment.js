@@ -1,8 +1,13 @@
-/* Name: Translator - Alignment
+/* 
+AUTHOR: Exosphere
+Contains: 1 trigger
+
+Name: Translator - Alignment
 Type: regexp
 Pattern: ^You are (neutral|agreeable|trustworthy|sympathetic|nice|sweet|good|devout|blessed|saintly|holy|disagreeable|untrustworthy|unsympathetic|sinister|wicked|nasty|foul|evil|malevolent|beastly|demonic|damned)\.$
 
-Execute the following javascript: */
+Execute the following javascript: 
+*/
 
   var good = ['agreeable','trustworthy','sympathetic','nice','sweet','good','devout','blessed','saintly','holy']
   

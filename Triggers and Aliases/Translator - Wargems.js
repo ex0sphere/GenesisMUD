@@ -1,8 +1,13 @@
-/* Name: Translator - Wargems
+/* 
+AUTHOR: Exosphere
+Contains: 1 trigger
+
+Name: Translator - Wargems
 Type: regexp
 Pattern: (ellipse-shaped azure diamond|ellipse-shaped black tourmaline|ellipse-shaped blue diamond|ellipse-shaped blue tourmaline|ellipse-shaped brown tourmaline|ellipse-shaped red tourmaline|ellipse-shaped violet tourmaline|ellipse-shaped white diamond|ellipse-shaped yellow tourmaline|glowing teardrop-shaped beryl|oval-shaped azure sapphire|oval-shaped black sapphire|oval-shaped blue sapphire|oval-shaped brown agate|oval-shaped green sapphire|oval-shaped magenta sapphire|oval-shaped mauve sapphire|oval-shaped amber aragonite|oval-shaped milky quartz|oval-shaped moonstone|oval-shaped purple amethyst|oval-shaped rose quartz|oval-shaped smoky quartz|oval-shaped striped chalcedony|oval-shaped violet sapphire|teardrop-shaped pyrite|teardrop-shaped bloodstone|teardrop-shaped blue spinel|teardrop-shaped blue topaz|teardrop-shaped carnelian|teardrop-shaped colourless beryl|teardrop-shaped diamond|teardrop-shaped golden pyrite|teardrop-shaped green jade|teardrop-shaped opal|triangular-shaped blue agate|triangular-shaped green peridot|triangular-shaped orange garnet|triangular-shaped yellow amber|triangular-shaped yellow topaz)
 
-Execute the following javascript: */
+Execute the following javascript: 
+*/
 
   const wargems = {
   'ellipse-shaped azure diamond':'[+hit, +damage (W)]',

@@ -1,4 +1,8 @@
-/*Name: Translator - Krynn Months
+/*
+AUTHOR: Exosphere
+Contains: 1 trigger
+
+Name: Translator - Krynn Months
 Type: regexp
 Pattern: (Aelmont|Rannmont|Mishamont|Chislmont|Bran|Corij|Argon|Sirrimont|Reorxmont|Hiddumont|rarmont|Phoenix) in the year
 

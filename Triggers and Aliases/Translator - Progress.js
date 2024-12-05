@@ -1,8 +1,13 @@
-/* Name: Translator - Progress
+/* 
+AUTHOR: Exosphere
+Contains: 1 trigger
+
+Name: Translator - Progress
 Type: regexp
 Pattern: (no measurable progress|insignificant progress|a tiny amount of progress|minimal progress|slight progress|low progress|a little progress|some progress|modest progress|decent progress|nice progress|good progress|very good progress|major progress|great progress|extremely good progress|awesome progress|immense progress|tremendous progress|fantastic progress)
 
-Execute the following javascript: */
+Execute the following javascript: 
+*/
 
   const progress = {
     'no measurable progress':'[0/18]',

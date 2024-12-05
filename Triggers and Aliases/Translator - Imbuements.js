@@ -1,6 +1,8 @@
 /*
 ORIGINAL AUTHOR: Kelrhys
 UPDATED BY: Exosphere
+Contains: 1 trigger
+
 This is an updated version of the trigger from GenesisMudDiscord. Fixed typos and added missing imbuements.
 
 Name: Translator - Imbues
