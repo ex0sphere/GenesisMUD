@@ -69,6 +69,7 @@ gwc.connection.send("ka",true)
 /* ------------------- */
 
 // 3. TRIGGER: Enemy Counter
+// Name: Combat - Attack All
 // Type: regexp
 // Pattern: ^(You (count|find) (a single|two|three|four|five|six|seven|eight|nine|ten)|You don&#39;t find any)
 
