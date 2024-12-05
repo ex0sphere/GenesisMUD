@@ -15,7 +15,7 @@ Pattern: ^(?:It is almost impossible to get a good strike with this weapon|It is
 Execute the following javascript:
 */
 
-//DECLARE CONST FOR LESS TYPING
+// Declare const for less typing
 const a0 = args[0]
 
 // Convert sminspect text to numbers
@@ -57,7 +57,7 @@ case a0 === 'This armour wouldn&#39;t even protect you from a very weak blow.':
   gwc.output.replace ("This armour wouldn't even protect you from a very weak blow.", "<span style='color:steelblue'>This armour wouldn't even protect you from a very weak blow. [1/6]</span>");
   break
   
-// Add the number to the next and to average calculator
+// Adds the number to the text and to average calculator
 default:
 case a0 in weaponAccuracy: 
   gwc.output.replace (a0, `<span style='color:pink'     >${a0} ${weaponAccuracy[a0]}</span>`);
@@ -74,7 +74,9 @@ case a0 in armourProtection:
 }
 
 /* *** 2. ALIAS ***
-Usage: sma <item> - calculate the average sminspect of an item. Takes a bit.
+Usage: sma <item> - calculate the average sminspect of an item. Spammy and takes a few seconds.
+If the game gets laggy after usage, clear your log.
+
 Pattern: sma
 Execute the following javascript:
 */
@@ -101,7 +103,7 @@ function calculateAverage(array) {
     }
 
 for (let i = 0; i < timesToInspect; i++) {
-    setTimeout(inspect, 50)
+    setTimeout(inspect, 50) // Inspects every 50 milliseconds. Increase the value if your browser freezes upon use.
   }
 setTimeout(function(){
 let dmg  =  Math.round(calculateAverage(gwc.userdata.weaponDamage) * 100) / 100;
