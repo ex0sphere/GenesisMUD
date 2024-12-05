@@ -21,7 +21,7 @@ if(enemy.endsWith("f")){
 if(enemy.endsWith("y")){
   enemy = enemy.replace(/y$/g,"ie") // fix for trolobies and other stuff
 }
-gwc.trigger.enable("Enemy Counter")
+gwc.trigger.enable("Combat - Attack All")
 gwc.connection.send("count "+enemy+"s")
 
 // 2.1. Directional aliases for manual use:
@@ -87,4 +87,4 @@ const adjectives = {
   }
 }
 
-gwc.trigger.disable("Enemy Counter")
+gwc.trigger.disable("Combat - Attack All")
