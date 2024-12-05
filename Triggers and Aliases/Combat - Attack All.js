@@ -21,7 +21,7 @@ if(enemy.endsWith("f")){
 if(enemy.endsWith("y")){
   enemy = enemy.replace(/y$/g,"ie") // fix for trolobies and other stuff
 }
-gwc.trigger.enable("Combat - Attack All")
+gwc.trigger.enable("Enemy Counter")
 gwc.connection.send("count "+enemy+"s")
 
 // 2.1. Directional aliases for manual use:
@@ -69,7 +69,7 @@ gwc.connection.send("ka",true)
 /* ------------------- */
 
 // 3. TRIGGER: Enemy Counter
-// Name: Combat - Attack All
+// Name: Enemy Counter
 // Type: regexp
 // Pattern: ^(You (count|find) (a single|two|three|four|five|six|seven|eight|nine|ten)|You don&#39;t find any)
 
@@ -88,4 +88,4 @@ const adjectives = {
   }
 }
 
-gwc.trigger.disable("Combat - Attack All")
+gwc.trigger.disable("Enemy Counter")
