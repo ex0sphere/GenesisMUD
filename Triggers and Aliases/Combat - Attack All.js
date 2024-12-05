@@ -1,4 +1,9 @@
-// This code lets you enter a room, count the amount of enemies and attack first/second/third enemy etc. depending on how many you find.
+/* 
+AUTHOR: Exosphere
+Contains: 1 trigger, 2 aliases, (optional) 10 movement aliases
+
+This code lets you enter a room, count the amount of enemies and attack first/second/third enemy etc. depending on how many you find.
+*/
 
 // 1. ALIAS: enemy - Use this for setting the enemy you want to target
 // Example: enemy kroug - sets your enemy to kroug
@@ -19,7 +24,7 @@ if(enemy.endsWith("y")){
 gwc.trigger.enable("Enemy Counter")
 gwc.connection.send("count "+enemy+"s")
 
-// Directional aliases for manual use:
+// 2.1. Directional aliases for manual use:
 
 //Pattern: dk
 gwc.connection.send("d",true);

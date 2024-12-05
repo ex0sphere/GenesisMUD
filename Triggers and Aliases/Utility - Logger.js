@@ -1,5 +1,6 @@
 /*
 ORIGINAL AUTHOR: Kelrhys
+UPDATED BY: Exosphere
 This is an updated version of Log.txt that lets you name your logs.
 
 USAGE:

@@ -1,6 +1,7 @@
 /*
 ORIGINAL AUTHOR: Kelrhys
-This is an updated version of the trigger. Fixed typos and added missing imbuements.
+UPDATED BY: Exosphere
+This is an updated version of the trigger from GenesisMudDiscord. Fixed typos and added missing imbuements.
 
 Name: Translator - Imbues
 Type: regexp

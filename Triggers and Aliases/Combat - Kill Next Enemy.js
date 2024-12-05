@@ -1,4 +1,9 @@
 /*
+AUTHOR: Exosphere
+Contains: 1 trigger
+
+Easy all-in-one trigger for attacking the next enemy of the same type if you're the team leader.
+
 Pattern: (aghar|albus|builder|crusader|dark elf|darkling|dewar|draconian|aurak|bozak|sivak|drow|drow matron|drow warrior|drow priestess|drow servant|drow high mage|drow weaponmaster|drider|dunlending|dwarf|faerie||specter|shadow|bodak|draugr|mummy|sentry|ghost|sentinel|apparition|undead|guardian|skeleton|zombie|ghoul|banshee|devourer|ghost cat|wraith|gnome|goblin|guard|guardsman of Kabal|halfling|dark-skinned male human|hell hound|hobgoblin|knight|Kretan (.*)|kroug|avenger|lizardman|marauder|bugbear|goblin archer|ogre magi|mercenary|minotaur|moorsman(.*)|horse archer|necromancer|ogre|ogre magi|rat-man|sahuagin|soldier|stallion|thanoi|troll|troloby|warrior|wight|philosopher|leader|archer|trader|worker) died\.$
 */
 
