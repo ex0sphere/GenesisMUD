@@ -22,7 +22,13 @@ if(enemy.endsWith("y")){
   enemy = enemy.replace(/y$/g,"ie") // fix for trolobies and other stuff
 }
 gwc.trigger.enable("Enemy Counter")
-gwc.connection.send("count "+enemy+"s")
+
+if(enemy == "drow"){
+  gwc.connection.send("count drow") // Drow have the same plural and singular form
+}
+else {
+	gwc.connection.send("count "+enemy+"s")
+}
 
 // 2.1. Directional aliases for manual use:
 
