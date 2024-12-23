@@ -64,7 +64,7 @@ case a0 in weaponAccuracy:
   gwc.userdata.weaponAccuracy.push(weaponAccuracy[a0])
   break
 case a0 in weaponDamage: 
-  gwc.output.replace (a0, `<span style='color:slateblue'>${a0} ${weaponDamage[a0]}</span>"`);
+  gwc.output.replace (a0, `<span style='color:slateblue'>${a0} ${weaponDamage[a0]}</span>`);
   gwc.userdata.weaponDamage.push(weaponDamage[a0])
   break
 case a0 in armourProtection: 
