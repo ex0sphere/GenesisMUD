@@ -11,8 +11,9 @@ hunt off - stop and turn off the script
 */
 
 // Add paths here, they must end with <hunt off> or whatever alias you changed this to.
+// To do several commands in a row, separate them with a dash like in the example.
 const path = {
-    "example":"e, e, se, e, s, sw, hunt off",
+    "example":"e, e, n-ne-nw, e, s, sw, hunt off",
     "gk": "e,w,w,w,e,sw,s,se,ne,n,s,sw,e,ne,e,ne,sw,w,sw,se,w,hunt off",
     }
 // Define the kill command for each path
@@ -77,7 +78,8 @@ function nextRoom(move){
     	if(!occupied){
     		setTimeout(()=>send(kill,true),100)
     	}
-        send(move,true)
+        for (let i = 0; i < move.length; i++)
+        send(move[i],true)
      }
     else {
       gwc.output.append("Area cleared!")
@@ -92,6 +94,7 @@ let pathArray = stringToArray(path)
 let pathObject = arrayToObject(pathArray)
 // Executes the command for the right step of the path
 let direction = pathObject[roomCounter]
+direction = direction.split("-")
 
 nextRoom(direction)
 }
