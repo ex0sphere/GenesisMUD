@@ -28,16 +28,15 @@ const enemy = {
 }
 
 // This makes some global variables for the trigger to use
-gwc.userdata.currentScript = args[1]
 gwc.userdata.currentPath = path[args[1]]
-gwc.userdata.enemy = enemy[args[1]]
-gwc.userdata.killCommand = killCommand[args[1]]
-gwc.userdata.roomCounter = 0
-
 if(args[1] == "off"){
   gwc.output.append("Script stopped.")
 }
 else {
+gwc.userdata.currentScript = args[1]
+gwc.userdata.enemy = enemy[args[1]]
+gwc.userdata.killCommand = killCommand[args[1]]
+gwc.userdata.roomCounter = 0
 gwc.connection.send(gwc.userdata.killCommand,true)
 }
 
@@ -48,13 +47,15 @@ Trigger: Script - All In One
 Pattern: (^You find no such living creature\.|(?<!He|She|It) is fighting (?!you)|(?<!You) are fighting (?!you)|exclamation mark at the end of the command|^You cannot attack (.*) as|^You can&#39;t see anything here\.|^You don&#39;t find any)
 */
 
+// Time between rooms in milliseconds -- increase this if you are lagging or your SU/archers need more time to gather projectiles.
+let timeBetweenRooms = 50 
+
+// No more user input needed, the script is done, enjoy!
+
 // Sets your path to the one from the alias
 let path = gwc.userdata.currentPath
 // Sets the corresponding kill command
 let kill = gwc.userdata.killCommand
-
-// Don't touch anything below, your script is done!
-// --------
 
 let send = gwc.connection.send
 let occupied = args[1].includes("fighting")
@@ -76,7 +77,7 @@ function nextRoom(move){
     if(!move.includes("off")){
     	gwc.output.append("Room: "+roomCounter)
     	if(!occupied){
-    		setTimeout(()=>send(kill,true),100)
+    		setTimeout(()=>send(kill,true),timeBetweenRooms)
     	}
         for (let i = 0; i < move.length; i++)
         send(move[i],true)
