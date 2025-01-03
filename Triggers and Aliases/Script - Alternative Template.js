@@ -11,7 +11,7 @@ hunt off - stop and turn off the script
 */
 
 // Add paths here, they must end with <hunt off> or whatever alias you changed this to.
-// To do several commands in a row, separate them with a dash like in the example.
+// To do several commands in a row, separate them with a dash like in the example. Keep in mind this can make it skip rooms if you run into someone along the way.
 const path = {
     "example":"e, e, n-ne-nw, e, s, sw, hunt off",
     "gk": "e,w,w,w,e,sw,s,se,ne,n,s,sw,e,ne,e,ne,sw,w,sw,se,w,hunt off",
@@ -46,6 +46,7 @@ gwc.connection.send(gwc.userdata.killCommand,true)
 Trigger: Script - All In One
 Pattern: (^You find no such living creature\.|(?<!He|She|It) is fighting (?!you)|(?<!You) are fighting (?!you)|exclamation mark at the end of the command|^You cannot attack (.*) as|^You can&#39;t see anything here\.|^You don&#39;t find any)
 */
+// No user input needed here, paths are managed through the alias.
 
 // Time between rooms in milliseconds -- increase this if you are lagging or your SU/archers need more time to gather projectiles.
 let timeBetweenRooms = 50 
