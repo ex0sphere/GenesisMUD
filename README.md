@@ -1,4 +1,5 @@
 Hi! This is a personal collection of useful files for the online text-based MMORPG (aka MUD) called Genesis.
+Currently contains javascript triggers and aliases that are usable in the Webclient.
 
 The game can be found here: 
 https://www.genesismud.org
