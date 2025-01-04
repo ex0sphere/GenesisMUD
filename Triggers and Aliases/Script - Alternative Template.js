@@ -78,10 +78,10 @@ function nextRoom(move){
     if(!move.includes("off")){
     	gwc.output.append("Room: "+roomCounter)
     	if(!occupied){
-    		setTimeout(()=>send(kill,true),timeBetweenRooms)
+    		setTimeout(()=>gwc.connection.send(kill,true),timeBetweenRooms)
     	}
         for (let i = 0; i < move.length; i++)
-        send(move[i],true)
+        gwc.connection.send(move[i],true)
      }
     else {
       gwc.output.append("Area cleared!")
