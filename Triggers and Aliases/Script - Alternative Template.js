@@ -10,6 +10,9 @@ hunt <path> - start script
 hunt off - stop and turn off the script
 */
 
+// The name of your trigger - change this if you renamed the trigger below this alias.
+const triggerName = "Script - All In One"
+
 // Add paths here, they must end with <hunt off> or whatever alias you changed this to.
 // To do several commands in a row, separate them with a dash like in the example. Keep in mind this can make it skip rooms if you run into someone along the way.
 const path = {
@@ -31,6 +34,7 @@ const enemy = {
 gwc.userdata.currentPath = path[args[1]]
 if(args[1] == "off"){
   gwc.output.append("Script stopped.")
+  gwc.trigger.disable(triggerName)
 }
 else {
 gwc.userdata.currentScript = args[1]
@@ -38,6 +42,7 @@ gwc.userdata.enemy = enemy[args[1]]
 gwc.userdata.killCommand = killCommand[args[1]]
 gwc.userdata.roomCounter = 0
 gwc.connection.send(gwc.userdata.killCommand,true)
+gwc.trigger.enable(triggerName)
 }
 
 // ----------------------------
