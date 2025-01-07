@@ -1,8 +1,10 @@
 /* 
+!!! DISCLAIMER: Botting is forbidden in Genesis MUD. You may face deletion if you are found scripting while inattentive.
+
 AUTHOR: Exosphere
 Contains: 1 alias, 1 trigger
 
-This is an alternative way to do scripts. Should make pathing a lot easier. Work in progress!
+This is the newer version of my script template. Should make pathing a lot easier. Work in progress!
 
 Alias: hunt
 Usage: 
@@ -11,7 +13,7 @@ hunt off - stop and turn off the script
 */
 
 // The name of your trigger - change this if you renamed the trigger below this alias.
-const triggerName = "Script - All In One"
+const triggerName = "Script - Hunting"
 
 // Add paths here, they must end with <hunt off> or whatever alias you changed this to.
 // To do several commands in a row, separate them with a dash like in the example. Keep in mind this can make it skip rooms if you run into someone along the way.
@@ -48,7 +50,7 @@ gwc.trigger.enable(triggerName)
 // ----------------------------
 
 /*
-Trigger: Script - All In One
+Trigger: Script - Hunting
 Pattern: (^You find no such living creature\.|(?<!He|She|It) is fighting (?!you)|(?<!You) are fighting (?!you)|exclamation mark at the end of the command|^You cannot attack (.*) as|^You can&#39;t see anything here\.|^You don&#39;t find any)
 */
 // No user input needed here, paths are managed through the alias.

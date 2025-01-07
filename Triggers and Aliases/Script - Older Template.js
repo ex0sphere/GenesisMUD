@@ -4,6 +4,8 @@
 AUTHOR: Exosphere
 Contains: 1 trigger, 1 alias
 
+Note - New template available on my Github page. Pathing is a lot easier with the new version.
+
 USAGE: 
 1. Make your alias and trigger as below.
 2. Go to your starting room.
