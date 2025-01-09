@@ -107,3 +107,6 @@ const enemy = {
 if(mud.gmcp["char.team"].leader == "You" || mud.gmcp["char.team"].leader == 0){
   setTimeout(function(){gwc.connection.send("!kill "+enemy[args[1]])},300)
   }
+else {
+  gwc.connection.send("!assist")
+}
