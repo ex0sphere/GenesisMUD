@@ -75,3 +75,7 @@ let who = exceptions[args[1]] || args[1]
 if(mud.gmcp["char.team"].leader == "You" || mud.gmcp["char.team"].leader == 0){
   setTimeout(function(){gwc.connection.send("!kill "+who)},200)
   }
+
+else {
+  gwc.connection.send("!assist")
+}
