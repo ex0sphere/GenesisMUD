@@ -24,7 +24,7 @@ if(enemy.endsWith("y")){
 gwc.trigger.enable("Enemy Counter")
 
 if(enemy == "drow"){
-  gwc.connection.send("count drow") // Drow have the same plural and singular form
+  gwc.connection.send("count all drow") // Drow have the same plural and singular form
 }
 else {
 	gwc.connection.send("count "+enemy+"s")
@@ -82,11 +82,11 @@ gwc.connection.send("ka",true)
 if(args[3]!=undefined){
 
 const numbers = { 
-  'a single': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'ten': 10
+  'a single': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'ten': 10, 'eleven':11, 'twelve':12, 'thirteen':13, 'fourteen':14, 'fifteen':15
   }
 let howMany = numbers[args[3]]
 const adjectives = {
-	1:'first', 2:'second', 3:'third', 4:'fourth', 5:'fifth', 6:'sixth', 7:'seventh', 8:'eighth',9:'ninth',10:'tenth'
+	1:'first', 2:'second', 3:'third', 4:'fourth', 5:'fifth', 6:'sixth', 7:'seventh', 8:'eighth',9:'ninth',10:'tenth',11:'eleventh',12:'twelfth',13:'thirteenth',14:'fourteenth',15:'fifteenth'
 }
 
   for (let i = 1; i <= howMany; i++) {
