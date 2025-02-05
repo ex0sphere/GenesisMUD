@@ -2,6 +2,7 @@
 !!! DISCLAIMER: Botting is forbidden in Genesis MUD. You may face deletion if you are found scripting while inattentive.
 
 AUTHOR: Exosphere
+REQUIRES: Combat - Kill Next Enemy.js (or a different "kill enemy on death" trigger)
 Contains: 1 alias, 1 trigger
 
 This is the newer version of my script template. Should make pathing a lot easier. Work in progress!
