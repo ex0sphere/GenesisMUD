@@ -10,7 +10,7 @@ font color #00ffff - sets font color to #00ffff
 font size 16px     - sets font size to 16px
 font family Comic Sans MS - sets the font to Comic Sans MS
 
-font [color/size/family] default - resets the color/size to the default #d0d0d0 / 14px / Source Code Pro
+font [color/size/family] default - resets the attribute to default: #d0d0d0 / 14px / Source Code Pro
 */
 
 let color
