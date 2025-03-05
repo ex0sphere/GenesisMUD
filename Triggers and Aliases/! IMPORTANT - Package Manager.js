@@ -14,7 +14,7 @@ window.foundTriggers = [];
 window.foundAliases = [];
 if (args[1] !== "create" && args[1] !== "download") gwc.output.append("Syntax is <package create/download>", msgColor);
 if (args[1] === "create") createPopup();
-if (args[1] === "download) {
+if (args[1] === "download") {
     let inputElement = document.createElement("input");
     inputElement.setAttribute("type", "file");
     inputElement.setAttribute("accept", "application/json");
