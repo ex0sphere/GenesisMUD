@@ -8,7 +8,7 @@ USAGE: <gag true/false/off>. Use the alias when you log in to enable it for the 
 */
 
 // Replace with your regex for lines to be gagged
-window.regexPattern = /(Get what?|What?|Take what?|You aren't fighting anyone|Assist whom?)/;
+window.regexPattern = /(^Get what\?|^What?\|^Take what\?|^You aren\'t fighting anyone|^Assist whom\?)/;
 
 // Replace with regex for lines that tend to not be results of sent commands that could lead to gagged responses 
 // This is only really important if you prefer <gag false> since it allows for better accuracy when cleaning

@@ -9,11 +9,11 @@ Pattern: ^You are (neutral|agreeable|trustworthy|sympathetic|nice|sweet|good|dev
 Execute the following javascript: 
 */
 
-  var good = ['agreeable','trustworthy','sympathetic','nice','sweet','good','devout','blessed','saintly','holy']
+const good = ['agreeable','trustworthy','sympathetic','nice','sweet','good','devout','blessed','saintly','holy']
   
-  var evil = ['disagreeable','untrustworthy','unsympathetic','sinister','wicked','nasty','foul','evil','malevolent','beastly','demonic','damned']
+const evil = ['disagreeable','untrustworthy','unsympathetic','sinister','wicked','nasty','foul','evil','malevolent','beastly','demonic','damned']
   
-  const alignment = {
+const alignment = {
       'neutral':'[-12/0/10]',
       'agreeable':'[1/10]',
       'trustworthy':'[2/10]',
@@ -38,11 +38,10 @@ Execute the following javascript:
       'demonic':'[11/12]',
       'damned':'[12/12]'
   }
-  var color
+let color
   
-  if (args[1]==='neutral'){color='<span style="color:#878787">'}
-      else if (good.includes(args[1])){color='<span style="color:#78b9ff">'}
-          else if (evil.includes(args[1])){color='<span style="color:#ff6363">'}
+if (args[1]==='neutral'){color='<span style="color:#878787">'}
+    else if (good.includes(args[1])){color='<span style="color:#78b9ff">'}
+        else if (evil.includes(args[1])){color='<span style="color:#ff6363">'}
   
-  gwc.output.replace(args[1],color+args[1] + " " + alignment[args[1]]+'</span>',true);
-
+gwc.output.replace(args[1],color+args[1] + " " + alignment[args[1]]+'</span>',true);
