@@ -15,7 +15,8 @@ $("a[href='#triggers']").css({"border-left": "1px solid #999"});
 window.sessionToken = mud.gmcp['core.token'][0] + mud.gmcp['core.token'][1] + mud.gmcp['core.token'][2] + mud.gmcp['core.token'][3] + mud.gmcp['core.token'][4] + mud.gmcp['core.token'][5] + mud.gmcp['core.token'][6] + mud.gmcp['core.token'][7];
 window.triggerList = [];
 window.aliasList = [];
-$("#triggers").after(`
+$(".tabs .content").css("position", "absolute");
+$("#aliases").after(`
  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
  <div class="search-check-container">
      <form class="searchbar">
