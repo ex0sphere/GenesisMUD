@@ -40,7 +40,7 @@ tokens.forEach(token => {
 // Send commands with delay
 finalPath.forEach((command, index) => {
     setTimeout(() => {
-        gwc.connection.send(command);
+        gwc.connection.send(command,true);
         gwc.output.color('#991999');
     }, index * delay);
 });
