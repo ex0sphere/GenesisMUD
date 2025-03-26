@@ -1,6 +1,5 @@
 /*
-ORIGINAL AUTHOR: Celse & Qwer
-UPDATED BY: Exosphere
+AUTHORS: Celse, Qwer, Exosphere
 Contains: 1 trigger, 1 alias
 
 This tool lets you see the average sminspect output of an item for an accurate reading. Also functions as a numerical translator for the values.
@@ -60,15 +59,15 @@ case a0 === 'This armour wouldn&#39;t even protect you from a very weak blow.':
 // Adds the number to the text and to average calculator
 default:
 case a0 in weaponAccuracy: 
-  gwc.output.replace (a0, `<span style='color:pink'     >${a0} ${weaponAccuracy[a0]}</span>`);
+  gwc.output.replace (a0, `<span style='color:pink'     >${a0} </span>\[${weaponAccuracy[a0]}\]`);
   gwc.userdata.weaponAccuracy.push(weaponAccuracy[a0])
   break
 case a0 in weaponDamage: 
-  gwc.output.replace (a0, `<span style='color:slateblue'>${a0} ${weaponDamage[a0]}</span>`);
+  gwc.output.replace (a0, `<span style='color:mediumslateblue'>${a0} </span>\[${weaponDamage[a0]}\]`);
   gwc.userdata.weaponDamage.push(weaponDamage[a0])
   break
 case a0 in armourProtection: 
-  gwc.output.replace (a0, `<span style='color:steelblue'>${a0} ${armourProtection[a0]}</span>`);
+  gwc.output.replace (a0, `<span style='color:steelblue'>${a0} </span>\[${armourProtection[a0]}\]`);
   gwc.userdata.armourProtection.push(armourProtection[a0])
   break
 }
@@ -103,7 +102,7 @@ function calculateAverage(array) {
     }
 
 for (let i = 0; i < timesToInspect; i++) {
-    setTimeout(inspect, 50) // Inspects every 50 milliseconds. Increase the value if your browser freezes upon use.
+    setTimeout(inspect, i * 50) // Inspects every 50 milliseconds. Increase the value if your browser freezes upon use.
   }
 setTimeout(function(){
 let dmg  =  Math.round(calculateAverage(gwc.userdata.weaponDamage) * 100) / 100;
