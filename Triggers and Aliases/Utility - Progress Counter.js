@@ -91,7 +91,7 @@ gwc.userdata.progressKills += 1;
 
 // Check if the progress level after the kill is the same as before the kill
 // If the progress level is new, then record the level and its number of kills in a table
-if (gwc.userdata.currentProgress != newProgress && newProgress != 'insignificant') {
+if (gwc.userdata.currentProgress != newProgress && newProgress != 'insignificant' && newProgress != 'no measurable') {
   gwc.output.append('Adding new progress entry: ' + newProgress + ' from ' + gwc.userdata.currentProgress);
   gwc.userdata.progressTable[newProgress] = gwc.userdata.progressKills;
   var tempDate = new Date();
