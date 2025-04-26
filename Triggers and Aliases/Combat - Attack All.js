@@ -13,7 +13,7 @@ gwc.userdata.enemy=(args['*'])
 // 2. ALIAS: ka - Count enemies in a room and attack them all
 
 //Pattern: ka
-let enemy = gwc.userdata.enemy
+let enemy = args["*"] || gwc.userdata.enemy
 
 if(enemy.endsWith("f")){
 	enemy = enemy.replace(/f$/g,"ve") // fix for elves and dwarves
