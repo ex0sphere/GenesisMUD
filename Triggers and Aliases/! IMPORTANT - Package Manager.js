@@ -4,10 +4,13 @@ Contains: 1 alias
 
 Lets you easily install packages with multiple triggers and aliases, as well as create your own packages.
 
+USAGE: 
+package create - create a .json package
+package download - install a .json package from your computer
+
 Pattern: package
 Execute the following javascript: */
 
-//USAGE: <package create/download>
 window.sessionToken = mud.gmcp['core.token'][0] + mud.gmcp['core.token'][1] + mud.gmcp['core.token'][2] + mud.gmcp['core.token'][3] + mud.gmcp['core.token'][4] + mud.gmcp['core.token'][5] + mud.gmcp['core.token'][6] + mud.gmcp['core.token'][7];
 let msgColor = "#B3EBF2"; //Edit default message color if you want to
 window.foundTriggers = [];
