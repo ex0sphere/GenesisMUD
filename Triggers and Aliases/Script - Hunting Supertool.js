@@ -162,6 +162,7 @@ function startPathRecording() {
 	window.isRecording = true;
 	window.walklist = [];
 	append("Recording started. Enter your steps...");
+    append("Start with 'hunt command' or 'hunt cmd'! (example: hunt cmd kill orc)");
 
 	// Capture input on Enter key
 	$("#input").off("keydown.pathRecorder").on("keydown.pathRecorder", event => {
