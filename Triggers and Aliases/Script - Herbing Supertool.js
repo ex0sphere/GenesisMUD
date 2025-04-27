@@ -172,6 +172,7 @@ function startPathRecording() {
 	window.isRecording = true;
 	window.walklist = [];
 	append("Recording started. Enter your steps...");
+    append("Start with 'herb command' or 'herb cmd'! (example: herb cmd suranie)");
 
 	// Capture input on Enter key
 	$("#input").off("keydown.pathRecorder").on("keydown.pathRecorder", event => {
