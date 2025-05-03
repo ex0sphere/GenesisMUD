@@ -390,7 +390,7 @@ else if(args[1] in gwc.userdata.huntPathList) {
     gwc.userdata.currentScript = args[1]
     gwc.userdata.roomCounter = 0
     append("Hunt started: "+args[1])
-    gwc.connection.send(gwc.connection.send("count enemies")
+    gwc.connection.send("count enemies")
     gwc.trigger.enable(triggerName)
 }
 
