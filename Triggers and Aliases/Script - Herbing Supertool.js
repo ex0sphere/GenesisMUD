@@ -36,7 +36,7 @@ function nextRoom(move){
 	for (let i = 0; i < move.length; i++) {
 	gwc.connection.send(move[i],true)
 	}
-    setTimeout(()=>{gwc.connection.send("search here for "+herb)},100)
+    setTimeout(()=>{gwc.connection.send("search here for "+gwc.userdata.herbCommand)},100)
 }
 
 if(gwc.userdata.currentScript!="off") {
@@ -393,6 +393,7 @@ else if (args[1] == "command" || args[1] == "cmd"){
 // START SCRIPT
 
 else if(args[1] in gwc.userdata.herbPathList) {
+    gwc.userdata.herbedtimes = 0;
     gwc.userdata.currentPath = gwc.userdata.herbPathList[args[1]]
     gwc.userdata.currentScript = args[1]
     gwc.userdata.roomCounter = 0
