@@ -107,9 +107,6 @@ const recorderColor = "#fcba03"
 
 /* No more user input needed. Enjoy! */
 
-// Ensure path storage exists
-gwc.userdata.huntPathList = gwc.userdata.huntPathList || {};
-
 // Parse arguments
 let action = args[1];
 let pathName = args[2];
@@ -216,6 +213,16 @@ function stopPathRecording() {
 
 // Main logic - block switching based on action argument
 
+// Ensure path storage exists
+if(!gwc.userdata.huntPathList) {
+    let output = 
+`
+ERROR: Path storage not found. If this is your first time using the alias, type '${aliasName} initialize'. Else, refresh the page.
+`
+append(output);
+}
+else {
+
 // SHOW SYNTAX
 
 if (!action) {
@@ -268,6 +275,13 @@ HOW TO ADD SCRIPTS:
     After adding this script, you can do '${aliasName} trollshaws' to start it.
 `;
 append(output);
+}
+
+// INITIALIZE PATH LIST
+
+else if (action === "initialize") {
+    gwc.userdata.huntPathList = {};
+    output("Path list initialized!")
 }
 
 // LIST SAVED SCRIPTS
@@ -390,12 +404,13 @@ else if(args[1] in gwc.userdata.huntPathList) {
     gwc.userdata.currentScript = args[1]
     gwc.userdata.roomCounter = 0
     append("Hunt started: "+args[1])
-    gwc.connection.send("count enemies")
     gwc.trigger.enable(triggerName)
+    gwc.connection.send("count enemies")
 }
 
 // SHOW ERROR
 
 else {
     append(`No such script found. Type ${aliasName} for help.`)
+}
 }
