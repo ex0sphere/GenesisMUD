@@ -281,7 +281,7 @@ append(output);
 
 else if (action === "initialize") {
     gwc.userdata.huntPathList = {};
-    output("Path list initialized!")
+    append("Path list initialized!")
 }
 
 // LIST SAVED SCRIPTS

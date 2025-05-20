@@ -6,25 +6,25 @@ Ultimate path manager. Can walk and reverse-walk, record new paths, quickly add/
 Path adding accepts common simplification, e.g.: "2e, 3w" -> "e, e, w, w, w"
 
 USAGE:
-  paths <name>                  - Walk selected path
-  paths                         - Show this info
-  paths show/list               - Show stored paths
-  paths add <name> <directions> - Save/update a path
-  paths clear/remove <name>     - Remove a saved path
-  paths delay <num>             - Set the delay between steps when pathwalking
+  path <name>                  - Walk selected path
+  path                         - Show this info
+  path show/list               - Show stored paths
+  path add <name> <directions> - Save/update a path
+  path clear/remove <name>     - Remove a saved path
+  path delay <num>             - Set the delay between steps when pathwalking
 
-  paths walk <name>             - Walk selected path
-  paths rwalk/back <name>       - Walk selected path in reverse
+  path walk <name>             - Walk selected path
+  path rwalk/back <name>       - Walk selected path in reverse
   
-  paths record/record start     - Start the path recorder
-  paths save/record save <name> - Save the recorded actions
-  paths stop/record stop        - Stop the path recorder and discard path
+  path record/record start     - Start the path recorder
+  path save/record save <name> - Save the recorded actions
+  path stop/record stop        - Stop the path recorder and discard path
 
 Execute the following javascript:
 */
 
 // The name of your alias. Change it here if you change the alias.
-const aliasName = "paths"
+const aliasName = "path"
 
 // Configurable delay (default: 50ms)
 let delay = gwc.userdata.path_delay || 50; 
@@ -40,9 +40,6 @@ const messageColor = "magenta"
 const recorderColor = "#fcba03"
 
 /* No more user input needed. Enjoy! */
-
-// Ensures path storage exists
-gwc.userdata.stPathList = gwc.userdata.stPathList || {};
 
 // Parse arguments
 let action = args[1];
@@ -137,6 +134,15 @@ function stopPathRecording() {
 	$("#input").off("keydown.pathRecorder");  // Remove event listener
 }
 
+// Ensure path storage exists
+if(!gwc.userdata.stPathList) {
+    let output = 
+`
+ERROR: Path storage not found. If this is your first time using the alias, type '${aliasName} initialize'. Else, refresh the page.
+`
+append(output);
+}
+else {
 
 // Main logic - block switching based on action argument
 if (!action) {
@@ -144,25 +150,35 @@ if (!action) {
 	// No arguments:
 	// Print usage info, delay setting, and stored paths
     let output = 
-`Usage:
-  paths                         - Show this info
-  paths show/list               - Show stored paths
-  paths add <name> <directions> - Save/update a path
-  paths clear/remove <name>     - Remove a saved path
-  paths delay <num>             - Set the delay between steps when pathwalking
+`
+Usage:
+  ${aliasName}                  - Show this info
+  ${aliasName} list             - Show stored paths
+  ${aliasName} add <name> <directions> - Save/update a path
+  ${aliasName} remove <name>    - Remove a saved path
+  ${aliasName} delay <num>      - Set the delay between steps when pathwalking
 
-  paths <name>                  - Walk selected path
-  paths walk <name>             - Walk selected path
-  paths rwalk/back <name>       - Walk selected path in reverse
+  ${aliasName} <name>           - Walk selected path
+  ${aliasName} back <name>      - Walk selected path in reverse
   
-  paths record start            - Start the path recorder
-  paths record save <name>      - Save the recorded actions
-  paths record stop             - Stop the path recorder and discard path
+  ${aliasName} record           - Start the path recorder
+  ${aliasName} save <name>      - Save the recorded actions
+  ${aliasName} stop             - Stop the path recorder and discard path
 
 Current path delay: ${gwc.userdata.path_delay || 50} ms
-`;
-	gwc.output.append(output);
-} else if (action === "show" || action === "list") {
+`
+;
+    gwc.output.append(output);
+} 
+
+// INITIALIZE PATH LIST
+
+else if (action === "initialize") {
+    gwc.userdata.stPathList = {};
+    append("Path list initialized!")
+}
+
+else if (action === "show" || action === "list") {
 	// Pattern: paths show
 	// Print saved paths, sorted alphabetically by key
     let output = ("Defined Paths:\n");
@@ -201,7 +217,7 @@ Current path delay: ${gwc.userdata.path_delay || 50} ms
 	gwc.userdata.stPathList[pathName] = finalPath;	
     gwc.output.append(`Path '${pathName}' saved.`);
 
-} else if ((action === "clear"||action === "remove") && pathName) {
+} else if (action === "remove") && pathName) {
     // Pattern: paths clear <pathName>
 	// Remove a path
     if (gwc.userdata.stPathList[pathName]) {

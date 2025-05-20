@@ -117,9 +117,6 @@ gwc.userdata.herbTimes = gwc.userdata.herbTimes || 3 // How many times to herb p
 
 /* No more user input needed. Enjoy! */
 
-// Ensure path storage exists
-gwc.userdata.herbPathList = gwc.userdata.herbPathList || {};
-
 // Parse arguments
 let action = args[1];
 let pathName = args[2];
@@ -223,6 +220,16 @@ function stopPathRecording() {
 	$("#input").off("keydown.pathRecorder");  // Remove event listener
 }
 
+// Ensure path storage exists
+
+if(!gwc.userdata.herbPathList) {
+    let output = 
+`
+ERROR: Path storage not found. If this is your first time using the alias, type '${aliasName} initialize'. Else, refresh the page.
+`
+append(output);
+}
+else {
 
 // Main logic - block switching based on action argument
 
@@ -277,6 +284,13 @@ HOW TO ADD SCRIPTS:
     After adding this script, you can do '${aliasName} forest' to start it.
 `;
 append(output);
+}
+
+// INITIALIZE PATH LIST
+
+else if (action === "initialize") {
+    gwc.userdata.herbPathList = {};
+    append("Path list initialized!")
 }
 
 // LIST SAVED SCRIPTS
