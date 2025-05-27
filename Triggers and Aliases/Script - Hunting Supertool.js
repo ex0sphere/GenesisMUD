@@ -325,7 +325,7 @@ else if (action === "add" && pathName && directions) {
 
 // REMOVE SCRIPT
 
-else if ((action === "remove") && pathName) {
+else if (action === "remove" && pathName) {
     if (gwc.userdata.huntPathList[pathName]) {
         delete gwc.userdata.huntPathList[pathName];
         append(`Path '${pathName}' removed.`);

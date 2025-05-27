@@ -217,7 +217,7 @@ else if (action === "show" || action === "list") {
 	gwc.userdata.stPathList[pathName] = finalPath;	
     gwc.output.append(`Path '${pathName}' saved.`);
 
-} else if (action === "remove") && pathName) {
+} else if (action === "remove" && pathName) {
     // Pattern: paths clear <pathName>
 	// Remove a path
     if (gwc.userdata.stPathList[pathName]) {
@@ -334,4 +334,5 @@ else if (action in gwc.userdata.stPathList) {
 else {
 	// Syntax error
     gwc.output.append("Invalid command. Use 'paths' for usage info.");
+}
 }

@@ -334,7 +334,7 @@ else if (action === "add" && pathName && directions) {
 
 // REMOVE SCRIPT
 
-else if ((action === "remove") && pathName) {
+else if (action === "remove" && pathName) {
     if (gwc.userdata.herbPathList[pathName]) {
         delete gwc.userdata.herbPathList[pathName];
         append(`Path '${pathName}' removed.`);
@@ -420,4 +420,5 @@ else if(args[1] in gwc.userdata.herbPathList) {
 
 else {
     append(`No such script found. Type ${aliasName} for help.`)
+}
 }
