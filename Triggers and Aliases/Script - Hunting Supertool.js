@@ -214,7 +214,7 @@ function stopPathRecording() {
 // Main logic - block switching based on action argument
 
 // Ensure path storage exists
-if(!gwc.userdata.huntPathList) {
+if(!gwc.userdata.huntPathList && action != "initialize") {
     let output = 
 `
 ERROR: Path storage not found. If this is your first time using the alias, type '${aliasName} initialize'. Else, refresh the page.

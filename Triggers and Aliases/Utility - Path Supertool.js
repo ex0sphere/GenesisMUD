@@ -135,7 +135,7 @@ function stopPathRecording() {
 }
 
 // Ensure path storage exists
-if(!gwc.userdata.stPathList) {
+if(!gwc.userdata.stPathList && action != "initialize") {
     let output = 
 `
 ERROR: Path storage not found. If this is your first time using the alias, type '${aliasName} initialize'. Else, refresh the page.
