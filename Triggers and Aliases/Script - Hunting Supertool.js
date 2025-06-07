@@ -124,6 +124,28 @@ function append(text, color){
 
 // Helper functions:
 
+// Back up path list into browser storage
+function save(key, value){
+    if (typeof value !== 'undefined') {
+        localStorage.setItem(key, JSON.stringify(value));
+        append(`Saved to web storage successfully.`);
+        }
+    else {
+        append(`Error with saving backup, value is undefined.`)
+    }
+}
+
+// Load paths from backup
+function load(key){
+    if (typeof localStorage !== 'undefined') {
+        append(`Loaded from web storage successfully.`);
+        return JSON.parse(localStorage.getItem(key));
+    }
+    else {
+        append(`No backup found in web storage.`)
+    }
+}
+
 // Function to compact paths into numeric-prefix notation
 function compactPath(pathArray) {
     let compacted = [];
@@ -198,6 +220,8 @@ function savePathRecording(pathName) {
 	append(`Path '${pathName}' saved: ${window.walklist.join(", ")}`, recorderColor);
 	// Stop recording
 	stopPathRecording();
+    // Save backup to web storage
+    save("huntPathList",gwc.userdata.huntPathList);
 }
 // Pathrecorder: Function to stop recording without saving
 function stopPathRecording() {
@@ -214,10 +238,12 @@ function stopPathRecording() {
 // Main logic - block switching based on action argument
 
 // Ensure path storage exists
-if(!gwc.userdata.huntPathList && action != "initialize") {
+if(!gwc.userdata.huntPathList && action != "initialize" && action != "restore") {
     let output = 
 `
-ERROR: Path storage not found. If this is your first time using the alias, type '${aliasName} initialize'. Else, refresh the page.
+ERROR: Path storage not found. 
+- If this is your first time using the alias, type '${aliasName} initialize'. Else, refresh the page.
+- If refreshing doesn't help, type '${aliasName} restore' to load an automatic backup.
 `
 append(output);
 }
@@ -284,6 +310,10 @@ else if (action === "initialize") {
     append("Path list initialized!")
 }
 
+else if (action === "restore") {
+    gwc.userdata.huntPathList = load("huntPathList");
+}
+
 // LIST SAVED SCRIPTS
 
 else if (action === "list") {
@@ -321,6 +351,8 @@ else if (action === "add" && pathName && directions) {
 		
 	gwc.userdata.huntPathList[pathName] = finalPath;	
     append(`Path '${pathName}' saved.`);
+    // Save backup to web storage
+    save("huntPathList",gwc.userdata.huntPathList);
 }
 
 // REMOVE SCRIPT
@@ -332,6 +364,8 @@ else if (action === "remove" && pathName) {
     } else {
         append(`Path '${pathName}' not found.`);
     }
+    // Save backup to web storage
+    save("huntPathList",gwc.userdata.huntPathList);
 }
 
 // SCRIPT RECORDER
