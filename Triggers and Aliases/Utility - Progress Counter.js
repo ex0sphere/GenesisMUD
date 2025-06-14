@@ -325,9 +325,9 @@ case "showkills":
     for (var i=0; i<sortedKills.length; i++) {
       var who = sortedKills[i];
       if (who == 'You') {
-        send('say to team ' + gwc.gmcp.data.character.status.name + ' has ' + gwc.userdata.killsTable[who] + ' kills! ');
+        send('whisper to team ' + gwc.gmcp.data.character.status.name + ' has ' + gwc.userdata.killsTable[who] + ' kills! ');
       } else {
-        send('say to team ' + who + ' has ' + gwc.userdata.killsTable[who] + ' kills! ');
+        send('whisper to team ' + who + ' has ' + gwc.userdata.killsTable[who] + ' kills! ');
       }
     }
     break;
