@@ -6,12 +6,15 @@ Counts your progress levels, progress times, kills, keeps track of all-time prog
 IMPORTANT: If it's your first time using the alias, use <prog resetall> one time after you install it.
 
 USAGE:
-prog           - show progress table
-prog last      - show time and kills since last progress
-prog alltime   - show your all-time fanta and progress count
-prog showkills - <say> who has how many kills on your team
-prog reset     - resets the progress counter
-prog resetall  - resets progress counter AND daily kill count AND fanta count.
+prog            - show progress table
+prog help       - show this helpfile
+prog last       - show time and kills since last progress
+prog alltime    - show your all-time fanta and progress count
+prog editprogs  - edit your all-time progress count
+prog editfantas - edit your all-time fanta count
+prog showkills  - <say> who has how many kills on your team
+prog reset      - resets the progress counter
+prog resetall   - resets progress counter AND daily kill count AND fanta count.
 prog resetAllTimeProgress - resets your ALL-TIME fanta and progress count.
 
 ---
@@ -121,12 +124,15 @@ gwc.userdata.currentProgress = newProgress;
 2. ALIAS: prog
 
 USAGE:
-prog           - show progress table
-prog last      - show time and kills since last progress
-prog alltime   - show your all-time fanta and progress count
-prog showkills - <say> who has how many kills on your team
-prog reset     - resets the progress counter
-prog resetall  - resets progress counter AND daily kill count AND fanta count.
+prog            - show progress table
+prog help       - show this helpfile
+prog last       - show time and kills since last progress
+prog alltime    - show your all-time fanta and progress count
+prog editprogs  - edit your all-time progress count
+prog editfantas - edit your all-time fanta count
+prog showkills  - <say> who has how many kills on your team
+prog reset      - resets the progress counter
+prog resetall   - resets progress counter AND daily kill count AND fanta count.
 prog resetAllTimeProgress - resets your ALL-TIME fanta and progress count.
 
 Pattern: prog
@@ -144,199 +150,231 @@ switch(args[1]){
 
 default:
  
-// Make sure that we have at least one kill
-if (gwc.userdata.dailyKills === undefined ||
-      gwc.userdata.dailyKills == 0) {
-  gwc.output.append("You haven't killed anything yet...");
-  return;
-}
- 
-// Skip a line and set the header and form for the table
-gwc.output.append("@----------------------------------------------@");
-gwc.output.append("|     PROGRESS THIS SESSION     |   DURATION   |");
-gwc.output.append("|----------------------------------------------|");
- 
-// Loop through each progress level and the number of kills
-// Format to left-align the name of the progress level
-// Reserve spaces for up to 9999 (over 1000) kills per progress level
-// Right-align the labeled kill count
-for (var progress in gwc.userdata.progressTable) {
-  if (gwc.userdata.currentProgress == "insignificant") {
-    gwc.output.append("|        NO PROGRESS YET        |              |");
-    continue;
-  } else if (progress == "insignificant") {
-    //gwc.output.append("|                               |              |");
-    continue;
-  }
-  secondsBetween = gwc.userdata.progressTimeTable[progress];
-  if (secondsBetween > 60 && secondsBetween < 3601) {
-    minutesBetween = Math.floor(secondsBetween / 60);
-    secondsBetween = secondsBetween % 60;
-    gwc.output.append("| " + progress + ":" + space.repeat(16 - progress.length) + "  " +
-                      space.repeat(4 - gwc.userdata.progressTable[progress].toString().length) +
-                      gwc.userdata.progressTable[progress] + " kills |      " +
-                      space.repeat(2 - minutesBetween.toString().length) + minutesBetween + "m " +
-                      space.repeat(2 - secondsBetween.toString().length) + secondsBetween + "s |");
-  } else if (secondsBetween < 60) {
-    gwc.output.append("| " + progress + ":" + space.repeat(16 - progress.length) + "  " +
-                      space.repeat(4 - gwc.userdata.progressTable[progress].toString().length) +
-                      gwc.userdata.progressTable[progress] + " kills |          " +
-                      space.repeat(2 - secondsBetween.toString().length) + secondsBetween + "s |");
-  } else {
-    hoursBetween = Math.floor(secondsBetween / 3600);
-    minutesBetween = Math.floor((secondsBetween - (hoursBetween * 3600)) / 60);
-    secondsBetween = secondsBetween % 60;
-    gwc.output.append("| " + progress + ":" + space.repeat(16 - progress.length) + "  " +
-                      space.repeat(4 - gwc.userdata.progressTable[progress].toString().length) +
-                      gwc.userdata.progressTable[progress] + " kills |  " +
-                      space.repeat(2 - hoursBetween.toString().length) + hoursBetween + "h " +
-                      space.repeat(2 - minutesBetween.toString().length) + minutesBetween + "m " +
-                      space.repeat(2 - secondsBetween.toString().length) + secondsBetween + "s |");
-  }
-}
-if (progress != "insignificant") gwc.output.append("|----------------------------------------------|");
-gwc.output.append("| Total Kills: " + gwc.userdata.dailyKills  + " -- Fantastics: " +
-                  gwc.userdata.fantasticProgress +
-                  space.repeat(16 - (gwc.userdata.dailyKills.toString().length +
-                                     gwc.userdata.fantasticProgress.toString().length)) + "|");
+    // Make sure that we have at least one kill
+    if (gwc.userdata.dailyKills === undefined ||
+          gwc.userdata.dailyKills == 0) {
+      gwc.output.append("You haven't killed anything yet...");
+      return;
+    }
+     
+    // Skip a line and set the header and form for the table
+    gwc.output.append("@----------------------------------------------@");
+    gwc.output.append("|     PROGRESS THIS SESSION     |   DURATION   |");
+    gwc.output.append("|----------------------------------------------|");
+     
+    // Loop through each progress level and the number of kills
+    // Format to left-align the name of the progress level
+    // Reserve spaces for up to 9999 (over 1000) kills per progress level
+    // Right-align the labeled kill count
+    for (var progress in gwc.userdata.progressTable) {
+      if (gwc.userdata.currentProgress == "insignificant") {
+        gwc.output.append("|        NO PROGRESS YET        |              |");
+        continue;
+      } else if (progress == "insignificant") {
+        //gwc.output.append("|                               |              |");
+        continue;
+      }
+      secondsBetween = gwc.userdata.progressTimeTable[progress];
+      if (secondsBetween > 60 && secondsBetween < 3601) {
+        minutesBetween = Math.floor(secondsBetween / 60);
+        secondsBetween = secondsBetween % 60;
+        gwc.output.append("| " + progress + ":" + space.repeat(16 - progress.length) + "  " +
+                          space.repeat(4 - gwc.userdata.progressTable[progress].toString().length) +
+                          gwc.userdata.progressTable[progress] + " kills |      " +
+                          space.repeat(2 - minutesBetween.toString().length) + minutesBetween + "m " +
+                          space.repeat(2 - secondsBetween.toString().length) + secondsBetween + "s |");
+      } else if (secondsBetween < 60) {
+        gwc.output.append("| " + progress + ":" + space.repeat(16 - progress.length) + "  " +
+                          space.repeat(4 - gwc.userdata.progressTable[progress].toString().length) +
+                          gwc.userdata.progressTable[progress] + " kills |          " +
+                          space.repeat(2 - secondsBetween.toString().length) + secondsBetween + "s |");
+      } else {
+        hoursBetween = Math.floor(secondsBetween / 3600);
+        minutesBetween = Math.floor((secondsBetween - (hoursBetween * 3600)) / 60);
+        secondsBetween = secondsBetween % 60;
+        gwc.output.append("| " + progress + ":" + space.repeat(16 - progress.length) + "  " +
+                          space.repeat(4 - gwc.userdata.progressTable[progress].toString().length) +
+                          gwc.userdata.progressTable[progress] + " kills |  " +
+                          space.repeat(2 - hoursBetween.toString().length) + hoursBetween + "h " +
+                          space.repeat(2 - minutesBetween.toString().length) + minutesBetween + "m " +
+                          space.repeat(2 - secondsBetween.toString().length) + secondsBetween + "s |");
+      }
+    }
+    if (progress != "insignificant") gwc.output.append("|----------------------------------------------|");
+    gwc.output.append("| Total Kills: " + gwc.userdata.dailyKills  + " -- Fantastics: " +
+                      gwc.userdata.fantasticProgress +
+                      space.repeat(16 - (gwc.userdata.dailyKills.toString().length +
+                                         gwc.userdata.fantasticProgress.toString().length)) + "|");
 
-// Show team kills
-var killStringList = [];
-for (var who in gwc.userdata.killsTable) {
-	killStringList.push("[" + gwc.userdata.killsTable[who] + "] " + who);
-}
-// Print 2 names per line, if possible
-for (var i=0; i<killStringList.length; i++) {
-  // Print even-numbered element plus next in list, if it exists
-  if ((i%2 == 0) && (i+1 < killStringList.length)) {
-    gwc.output.append("| " + killStringList[i].padEnd(22, " ") + 
-	killStringList[i+1].padEnd(22, " ") + " |");
-	i++;
-  } else {
-    // Print last/only element
-	gwc.output.append("| " + killStringList[i].padEnd(44) + " |");
-  }
-}    
-gwc.output.append("@----------------------------------------------@");
-// Make sure progressTime is set to date rather than string value. After
-// return from linkdeath it is string type rather than integer
-if (typeof gwc.userdata.progressTime == "string") {
-  gwc.userdata.progressTime = Date.parse(gwc.userdata.progressTime);
-}
-// Initialize some variables and get the current time
-var tempDate = new Date();
-var tempTime = Math.floor((tempDate.getTime() - gwc.userdata.progressTime) / 1000 );
-var timeString = '';
+    // Show team kills
+    var killStringList = [];
+    for (var who in gwc.userdata.killsTable) {
+        killStringList.push("[" + gwc.userdata.killsTable[who] + "] " + who);
+    }
+    // Print 2 names per line, if possible
+    for (var i=0; i<killStringList.length; i++) {
+      // Print even-numbered element plus next in list, if it exists
+      if ((i%2 == 0) && (i+1 < killStringList.length)) {
+        gwc.output.append("| " + killStringList[i].padEnd(22, " ") + 
+        killStringList[i+1].padEnd(22, " ") + " |");
+        i++;
+      } else {
+        // Print last/only element
+        gwc.output.append("| " + killStringList[i].padEnd(44) + " |");
+      }
+    }    
+    gwc.output.append("@----------------------------------------------@");
+    // Make sure progressTime is set to date rather than string value. After
+    // return from linkdeath it is string type rather than integer
+    if (typeof gwc.userdata.progressTime == "string") {
+      gwc.userdata.progressTime = Date.parse(gwc.userdata.progressTime);
+    }
+    // Initialize some variables and get the current time
+    var tempDate = new Date();
+    var tempTime = Math.floor((tempDate.getTime() - gwc.userdata.progressTime) / 1000 );
+    var timeString = '';
 
-// Set the string value for the amount of time since last progress
-if (tempTime > 3599) {
-  timeString = Math.floor(tempTime/3600) + 'h';
-  tempTime -= 3600 * (Math.floor(tempTime/3600));
-}
-timeString += ' ' + Math.floor(tempTime/60) + 'm';
-timeString += ' ' + tempTime % 60 + 's';
+    // Set the string value for the amount of time since last progress
+    if (tempTime > 3599) {
+      timeString = Math.floor(tempTime/3600) + 'h';
+      tempTime -= 3600 * (Math.floor(tempTime/3600));
+    }
+    timeString += ' ' + Math.floor(tempTime/60) + 'm';
+    timeString += ' ' + tempTime % 60 + 's';
 
-// Print the messages
-gwc.output.append('| Kills since last progress: ' + gwc.userdata.progressKills.toString().padEnd(18, " ") + "|");
-gwc.output.append('| Time since last progress:  ' + timeString.padEnd(18, ' ') + '|');
-gwc.output.append("@----------------------------------------------@");
-break;
+    // Print the messages
+    gwc.output.append('| Kills since last progress: ' + gwc.userdata.progressKills.toString().padEnd(18, " ") + "|");
+    gwc.output.append('| Time since last progress:  ' + timeString.padEnd(18, ' ') + '|');
+    gwc.output.append("@----------------------------------------------@");
+    break;
 
 /* --------- */
 
-  case "last":
+case "help":
+
+    let output = `
+USAGE:
+    prog            - show progress table
+    prog help       - show this helpfile
+    prog last       - show time and kills since last progress
+    prog alltime    - show your all-time fanta and progress count
+    prog showkills  - <say> who has how many kills on your team
+    prog reset      - resets the progress counter
+    prog resetall   - resets progress counter AND daily kill count AND fanta count.
+    prog resetAllTimeProgress - resets your ALL-TIME fanta and progress count.
+    prog editprogs  - edit your all-time progress count
+    prog editfantas - edit your all-time fanta count
+    `;
+    gwc.output.append(output,"#ffdc40");
+    break;
+
+case "last":
+
     // Make sure progressTime is set to date rather than string value. After
-// return from linkdeath it is string type rather than integer
-if (typeof gwc.userdata.progressTime == "string") {
-  gwc.userdata.progressTime = Date.parse(gwc.userdata.progressTime);
-}
-// Initialize some variables and get the current time
-var tempDate = new Date();
-var tempTime = Math.floor((tempDate.getTime() - gwc.userdata.progressTime) / 1000 );
-var timeString = '';
+    // return from linkdeath it is string type rather than integer
+    if (typeof gwc.userdata.progressTime == "string") {
+      gwc.userdata.progressTime = Date.parse(gwc.userdata.progressTime);
+    }
+    // Initialize some variables and get the current time
+    var tempDate = new Date();
+    var tempTime = Math.floor((tempDate.getTime() - gwc.userdata.progressTime) / 1000 );
+    var timeString = '';
 
-// Set the string value for the amount of time since last progress
-if (tempTime > 3599) {
-  timeString = Math.floor(tempTime/3600) + ' hour';
-  if (Math.floor(tempTime/3600) != 1) timeString += 's';
-  tempTime -= 3600 * (Math.floor(tempTime/3600));
-}
-timeString += ' ' + Math.floor(tempTime/60) + ' minute';
-if (Math.floor(tempTime/60) != 1) timeString += 's';
-timeString += ' ' + tempTime % 60 + ' second';
-if (tempTime % 60 != 1) timeString += 's';
+    // Set the string value for the amount of time since last progress
+    if (tempTime > 3599) {
+      timeString = Math.floor(tempTime/3600) + ' hour';
+      if (Math.floor(tempTime/3600) != 1) timeString += 's';
+      tempTime -= 3600 * (Math.floor(tempTime/3600));
+    }
+    timeString += ' ' + Math.floor(tempTime/60) + ' minute';
+    if (Math.floor(tempTime/60) != 1) timeString += 's';
+    timeString += ' ' + tempTime % 60 + ' second';
+    if (tempTime % 60 != 1) timeString += 's';
 
-// Print the messages
-gwc.output.append('@----------------------------------------------------------@');
-gwc.output.append('| Kills since last progress: ' + gwc.userdata.progressKills.toString().padEnd(30, " ") + "|");
-gwc.output.append('| Time since last progress: ' + timeString.padEnd(31, ' ') + '|');
-gwc.output.append('@----------------------------------------------------------@');
-break;
+    // Print the messages
+    gwc.output.append('@----------------------------------------------------------@');
+    gwc.output.append('| Kills since last progress: ' + gwc.userdata.progressKills.toString().padEnd(30, " ") + "|");
+    gwc.output.append('| Time since last progress: ' + timeString.padEnd(31, ' ') + '|');
+    gwc.output.append('@----------------------------------------------------------@');
+    break;
 
 case "alltime":
-if(gwc.userdata.alltimeProgs == undefined || gwc.userdata.alltimeFantas == undefined){
-    gwc.userdata.alltimeProgs = 0
-    gwc.userdata.alltimeFantas = 0
-    gwc.output.append("Started counting your all-time progress and fantas!")
-}
-else {
-let fantas = Math.floor(100 * gwc.userdata.alltimeProgs / 18)/100
-gwc.output.append("Progress levels: "+gwc.userdata.alltimeProgs+" ("+fantas+" fantas)");
-gwc.output.append("     Fantastics: "+gwc.userdata.alltimeFantas);
-}
-break;
+
+    if(gwc.userdata.alltimeProgs == undefined || gwc.userdata.alltimeFantas == undefined){
+        gwc.userdata.alltimeProgs = 0
+        gwc.userdata.alltimeFantas = 0
+        gwc.output.append("Started counting your all-time progress and fantas!")
+    }
+    else {
+    let fantas = Math.floor(100 * gwc.userdata.alltimeProgs / 18)/100
+    gwc.output.append("Progress levels: "+gwc.userdata.alltimeProgs+" ("+fantas+" fantas)");
+    gwc.output.append("     Fantastics: "+gwc.userdata.alltimeFantas);
+    }
+    break;
 
 case "showkills":
 
-let send = gwc.connection.send;
-let print = gwc.output.append;
+    let send = gwc.connection.send;
+    let print = gwc.output.append;
 
-function getSortedKills(killsTable) {
-  var keys = Object.keys(killsTable);
-  return keys.sort(function(a,b){return killsTable[b]-killsTable[a];});
-}
-var sortedKills = getSortedKills(gwc.userdata.killsTable);
-for (var i=0; i<sortedKills.length; i++) {
-  var who = sortedKills[i];
-  if (who == 'You') {
-    send('say to team ' + gwc.gmcp.data.character.status.name + ' has ' + gwc.userdata.killsTable[who] + ' kills! ');
-  } else {
-    send('say to team ' + who + ' has ' + gwc.userdata.killsTable[who] + ' kills! ');
-  }
-}
-break;
+    function getSortedKills(killsTable) {
+      var keys = Object.keys(killsTable);
+      return keys.sort(function(a,b){return killsTable[b]-killsTable[a];});
+    }
+    var sortedKills = getSortedKills(gwc.userdata.killsTable);
+    for (var i=0; i<sortedKills.length; i++) {
+      var who = sortedKills[i];
+      if (who == 'You') {
+        send('say to team ' + gwc.gmcp.data.character.status.name + ' has ' + gwc.userdata.killsTable[who] + ' kills! ');
+      } else {
+        send('say to team ' + who + ' has ' + gwc.userdata.killsTable[who] + ' kills! ');
+      }
+    }
+    break;
 
 case "reset":
-// Resets the progress counter variables
-gwc.userdata.progressKills = 0;
-gwc.userdata.progressTime = new Date();
-gwc.userdata.progressTable = {};
-gwc.userdata.progressTimeTable = {};
-gwc.userdata.killsTable = {};
-gwc.output.append('Reset progress counter...');
-break;
+
+    // Resets the progress counter variables
+    gwc.userdata.progressKills = 0;
+    gwc.userdata.progressTime = new Date();
+    gwc.userdata.progressTable = {};
+    gwc.userdata.progressTimeTable = {};
+    gwc.userdata.killsTable = {};
+    gwc.output.append('Reset progress counter...');
+    break;
 
 case "resetall":
 
-// Resets the progress counter variables
-gwc.userdata.dailyKills = 0;
-gwc.userdata.fantasticProgress = 0;
-gwc.userdata.progressKills = 0;
-gwc.userdata.progressTime = new Date();
-gwc.userdata.progressTable = {};
-gwc.userdata.progressTimeTable = {};
-gwc.userdata.killsTable = {};
-gwc.output.append('Reset ALL progress counter...');
-if(gwc.userdata.alltimeProgs == undefined || gwc.userdata.alltimeFantas == undefined){
-    gwc.userdata.alltimeProgs = 0
-    gwc.userdata.alltimeFantas = 0
-}
-break;
+    // Resets the progress counter variables
+    gwc.userdata.dailyKills = 0;
+    gwc.userdata.fantasticProgress = 0;
+    gwc.userdata.progressKills = 0;
+    gwc.userdata.progressTime = new Date();
+    gwc.userdata.progressTable = {};
+    gwc.userdata.progressTimeTable = {};
+    gwc.userdata.killsTable = {};
+    gwc.output.append('Reset ALL progress counter...');
+    if(gwc.userdata.alltimeProgs == undefined || gwc.userdata.alltimeFantas == undefined){
+        gwc.userdata.alltimeProgs = 0
+        gwc.userdata.alltimeFantas = 0
+    }
+    break;
 
 case "resetAllTimeProgress":
 
-gwc.userdata.alltimeProgs = 0
-gwc.userdata.alltimeFantas = 0
+    gwc.userdata.alltimeProgs = 0
+    gwc.userdata.alltimeFantas = 0
+    break;
 
-break;
+case "editprogs":
+
+    gwc.userdata.alltimeProgs = Number(args[2]);
+    gwc.connection.send("prog alltime",true);
+    break;
+
+case "editfantas":
+
+    gwc.userdata.alltimeFantas = Number(args[2]);
+    gwc.connection.send("prog alltime",true);
+    break;
 }
