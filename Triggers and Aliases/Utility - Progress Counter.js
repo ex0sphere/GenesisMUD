@@ -6,16 +6,18 @@ Counts your progress levels, progress times, kills, keeps track of all-time prog
 IMPORTANT: If it's your first time using the alias, use <prog resetall> one time after you install it.
 
 USAGE:
-prog            - show progress table
-prog help       - show this helpfile
-prog last       - show time and kills since last progress
-prog alltime    - show your all-time fanta and progress count
-prog editprogs  - edit your all-time progress count
-prog editfantas - edit your all-time fanta count
-prog showkills  - <say> who has how many kills on your team
-prog reset      - resets the progress counter
-prog resetall   - resets progress counter AND daily kill count AND fanta count.
-prog resetAllTimeProgress - resets your ALL-TIME fanta and progress count.
+    prog            - show progress table
+    prog help       - show this helpfile
+    prog last       - show time and kills since last progress
+    prog alltime    - show your all-time fanta and progress count
+    prog showkills  - <say> who has how many kills on your team
+    prog reset      - resets the progress counter
+    prog resetall   - resets progress counter AND daily kill count AND fanta count.
+    prog resetAllTimeProgress - resets your ALL-TIME fanta and progress count.
+    prog editprogs  - edit your all-time progress count
+    prog editfantas - edit your all-time fanta count
+    prog save       - save a backup of your progress count in web storage
+    prog restore    - restore your progress count from web storage
 
 ---
 
@@ -124,16 +126,18 @@ gwc.userdata.currentProgress = newProgress;
 2. ALIAS: prog
 
 USAGE:
-prog            - show progress table
-prog help       - show this helpfile
-prog last       - show time and kills since last progress
-prog alltime    - show your all-time fanta and progress count
-prog editprogs  - edit your all-time progress count
-prog editfantas - edit your all-time fanta count
-prog showkills  - <say> who has how many kills on your team
-prog reset      - resets the progress counter
-prog resetall   - resets progress counter AND daily kill count AND fanta count.
-prog resetAllTimeProgress - resets your ALL-TIME fanta and progress count.
+    prog            - show progress table
+    prog help       - show this helpfile
+    prog last       - show time and kills since last progress
+    prog alltime    - show your all-time fanta and progress count
+    prog showkills  - <say> who has how many kills on your team
+    prog reset      - resets the progress counter
+    prog resetall   - resets progress counter AND daily kill count AND fanta count.
+    prog resetAllTimeProgress - resets your ALL-TIME fanta and progress count.
+    prog editprogs  - edit your all-time progress count
+    prog editfantas - edit your all-time fanta count
+    prog save       - save a backup of your progress count in web storage
+    prog restore    - restore your progress count from web storage
 
 Pattern: prog
 Execute the following javascript:
@@ -145,6 +149,28 @@ var secondsBetween = 0;
 var minutesBetween = 0;
 var hoursBetween = 0;
 var hoursBetween = 0;
+
+// Function to back up progress counter into browser storage
+function save(key, value){
+    if (typeof value !== 'undefined') {
+        localStorage.setItem(key, JSON.stringify(value));
+        gwc.output.append(`Saved to web storage successfully.`);
+        }
+    else {
+        gwc.output.append(`Error with saving backup, value is undefined.`)
+    }
+}
+
+// Function to load progress counter from backup
+function load(key){
+    if (typeof localStorage !== 'undefined') {
+        gwc.output.append(`Loaded from web storage successfully.`);
+        return JSON.parse(localStorage.getItem(key));
+    }
+    else {
+        gwc.output.append(`No backup found in web storage.`)
+    }
+}
 
 switch(args[1]){
 
@@ -244,7 +270,7 @@ default:
 
     // Print the messages
     gwc.output.append('| Kills since last progress: ' + gwc.userdata.progressKills.toString().padEnd(18, " ") + "|");
-    gwc.output.append('| Time since last progress:  ' + timeString.padEnd(18, ' ') + '|');
+    gwc.output.append('| Time since last progress: ' + timeString.padEnd(19, ' ') + '|');
     gwc.output.append("@----------------------------------------------@");
     break;
 
@@ -264,6 +290,8 @@ USAGE:
     prog resetAllTimeProgress - resets your ALL-TIME fanta and progress count.
     prog editprogs  - edit your all-time progress count
     prog editfantas - edit your all-time fanta count
+    prog save       - save a backup of your progress count in web storage
+    prog restore    - restore your progress count from web storage
     `;
     gwc.output.append(output,"#ffdc40");
     break;
@@ -377,4 +405,17 @@ case "editfantas":
     gwc.userdata.alltimeFantas = Number(args[2]);
     gwc.connection.send("prog alltime",true);
     break;
+    
+case "save":
+    
+    save("alltimeProgs",gwc.userdata.alltimeProgs);
+    save("alltimeFantas",gwc.userdata.alltimeFantas);
+    break;
+
+case "restore":
+
+    load("alltimeProgs");
+    load("alltimeFantas");
+    break;
+
 }
