@@ -1,5 +1,5 @@
 /*
-AUTHOR: feskslo (with tweaks by Exosphere)
+AUTHOR: feskslo, updated by Exosphere
 Contains: 1 alias
 
 Ultimate path manager. Can walk and reverse-walk, record new paths, quickly add/remove/list paths.
@@ -36,7 +36,7 @@ const reverseMapping = {
       "climb up":"climb down","climb down":"climb up",
 	}
 // System message color
-const messageColor = "magenta"
+const messageColor = "#a1ebff"
 const recorderColor = "#fcba03"
 
 /* No more user input needed. Enjoy! */
@@ -46,8 +46,39 @@ let action = args[1];
 let pathName = args[2];
 let directions = args['*'] ? args['*'].replace(action, "").replace(pathName, "").trim() : "";
 
+// Color system messages
+function append(text, color){
+    if(color){
+        gwc.output.append(text,color)
+    }
+    else {
+    gwc.output.append(text,messageColor)
+    }
+}
 
 // Helper functions:
+
+// Back up path list into browser storage
+function save(key, value){
+    if (typeof value !== 'undefined') {
+        localStorage.setItem(key, JSON.stringify(value));
+        append(`Saved to web storage successfully.`);
+        }
+    else {
+        append(`Error with saving backup, value is undefined.`)
+    }
+}
+
+// Load paths from backup
+function load(key){
+    if (typeof localStorage !== 'undefined') {
+        append(`Loaded from web storage successfully.`);
+        return JSON.parse(localStorage.getItem(key));
+    }
+    else {
+        append(`No backup found in web storage.`)
+    }
+}
 
 // Function to compact paths into numeric-prefix notation
 function compactPath(pathArray) {
@@ -77,13 +108,13 @@ function compactPath(pathArray) {
 // Pathrecorder: Function to start recording
 function startPathRecording() {
 	if (window.isRecording) {
-		gwc.output.append("Already recording.");
+		append("Already recording.");
 		return;
 	}
 
 	window.isRecording = true;
 	window.walklist = [];
-	gwc.output.append("Recording started. Enter your steps...");
+	append("Recording started. Enter your steps...");
 
 	// Capture input on Enter key
 	$("#input").off("keydown.pathRecorder").on("keydown.pathRecorder", event => {
@@ -91,7 +122,7 @@ function startPathRecording() {
 			let step = $("#input").val().trim();
 			if (step && !step.startsWith("pathrecord") && !step.startsWith("paths")) {
 				window.walklist.push(step);
-				gwc.output.append("Recorded: " + step, recorderColor);
+				append("Recorded: " + step, recorderColor);
 			}
 		}
 	});
@@ -100,15 +131,15 @@ function startPathRecording() {
 // Pathrecorder: Function to save recording
 function savePathRecording(pathName) {
 	if (!window.isRecording) {
-		gwc.output.append("Recorder not running. Nothing saved.");
+		append("Recorder not running. Nothing saved.");
 		return;
 	}
 	if (!window.walklist || window.walklist.length === 0) {
-		gwc.output.append("No recorded steps to save. Recorder still running.");
+		append("No recorded steps to save. Recorder still running.");
 		return;
 	}
 	if (!pathName) {
-		gwc.output.append("Usage: paths record save <name>");
+		append("Usage: paths record save <name>");
 		return;
 	}
 	// Ensure walklist is an array before joining
@@ -119,14 +150,16 @@ function savePathRecording(pathName) {
 	// Save the path as an array
 	gwc.userdata.stPathList = gwc.userdata.stPathList || {};
 	gwc.userdata.stPathList[pathName] = [...window.walklist]; // Save as array
-	gwc.output.append(`Path '${pathName}' saved: ${window.walklist.join(", ")}`, recorderColor);
+	append(`Path '${pathName}' saved: ${window.walklist.join(", ")}`, recorderColor);
 	// Stop recording
 	stopPathRecording();
+    // Save backup to web storage
+    save("stPathList",gwc.userdata.stPathList)
 }
 // Pathrecorder: Function to stop recording without saving
 function stopPathRecording() {
 	if (!window.isRecording) {
-		gwc.output.append("Not recording.");
+		append("Not recording.");
 		return;
 	}
 
@@ -135,10 +168,12 @@ function stopPathRecording() {
 }
 
 // Ensure path storage exists
-if(!gwc.userdata.stPathList && action != "initialize") {
+if(!gwc.userdata.herbPathList && action != "initialize" && action != "restore") {
     let output = 
 `
-ERROR: Path storage not found. If this is your first time using the alias, type '${aliasName} initialize'. Else, refresh the page.
+ERROR: Path storage not found. 
+- If this is your first time using the alias, type '${aliasName} initialize'. Else, refresh the page.
+- If refreshing doesn't help, type '${aliasName} restore' to load an automatic backup.
 `
 append(output);
 }
@@ -168,7 +203,7 @@ Usage:
 Current path delay: ${gwc.userdata.path_delay || 50} ms
 `
 ;
-    gwc.output.append(output);
+    append(output);
 } 
 
 // INITIALIZE PATH LIST
@@ -181,15 +216,15 @@ else if (action === "initialize") {
 else if (action === "show" || action === "list") {
 	// Pattern: paths show
 	// Print saved paths, sorted alphabetically by key
-    let output = ("Defined Paths:\n");
+    let output = ("Defined Paths:\n - ");
 
     let pathEntries = Object.entries(gwc.userdata.stPathList)
         .sort(([keyA], [keyB]) => keyA.localeCompare(keyB)) // Sort by key
         .map(([name, path]) => `${name}: ${compactPath(path)}`)
-        .join("\n");
+        .join("\n - ");
 
     output += pathEntries || "(None)";
-    gwc.output.append(output);
+    append(output);
 	
 } else if (action === "add" && pathName && directions) {
 	// Pattern: paths add <pathName> <directions>
@@ -215,17 +250,21 @@ else if (action === "show" || action === "list") {
 	});
 		
 	gwc.userdata.stPathList[pathName] = finalPath;	
-    gwc.output.append(`Path '${pathName}' saved.`);
+    append(`Path '${pathName}' saved.`);
+    // Save backup to web storage
+    save("stPathList",gwc.userdata.stPathList)
 
 } else if (action === "remove" && pathName) {
     // Pattern: paths clear <pathName>
 	// Remove a path
     if (gwc.userdata.stPathList[pathName]) {
         delete gwc.userdata.stPathList[pathName];
-        gwc.output.append(`Path '${pathName}' removed.`);
+        append(`Path '${pathName}' removed.`);
     } else {
-        gwc.output.append(`Path '${pathName}' not found.`);
+        append(`Path '${pathName}' not found.`);
     }
+    // Save backup to web storage
+    save("stPathList",gwc.userdata.stPathList)
 
 } else if (action === "delay") {
 	// Pattern: paths delay <num>
@@ -233,18 +272,18 @@ else if (action === "show" || action === "list") {
 	// uses arg "pathName" for <num>
     if (!pathName) {
         // If no pathName is provided, prompt for the delay value
-        gwc.output.append(`Please provide a delay number in milliseconds. Current delay: ${gwc.userdata.path_delay || 50} ms.`);
+        append(`Please provide a delay number in milliseconds. Current delay: ${gwc.userdata.path_delay || 50} ms.`);
     } else if (isNaN(pathName)) {
         // If pathName is not a valid number, return an error
-        gwc.output.append("Invalid delay value. Please enter a valid number.");
+        append("Invalid delay value. Please enter a valid number.");
     } else {
         // Set delay between steps for pathwalking
         let delay = parseInt(pathName);
         if (delay > 0) {
             gwc.userdata.path_delay = delay;
-            gwc.output.append(`Pathwalking delay set to ${delay} ms.`);
+            append(`Pathwalking delay set to ${delay} ms.`);
         } else {
-            gwc.output.append("Please enter a positive delay value.");
+            append("Please enter a positive delay value.");
         }
     }
 	
@@ -253,12 +292,12 @@ else if (action === "show" || action === "list") {
 	// Walk the given path. Uses path_delay
 	if (!pathName || !gwc.userdata.stPathList || !gwc.userdata.stPathList[pathName]) {
 		let available = Object.keys(gwc.userdata.stPathList || {}).sort();
-		gwc.output.append("Path not found. Available paths: " + available.join(", "), recorderColor);
+		append("Path not found. Available paths: " + available.join(", "), recorderColor);
 		return;
 	}
 	  
 	let path = gwc.userdata.stPathList[pathName];
-	gwc.output.append("Walking path '" + pathName + "': " + path.join(", "), messageColor);
+	append("Walking path '" + pathName + "': " + path.join(", "), messageColor);
 	  
 	// Execute commands with delay
 	path.forEach((command, index) => {
@@ -274,7 +313,7 @@ else if (action === "show" || action === "list") {
 
 	if (!pathName || !gwc.userdata.stPathList || !gwc.userdata.stPathList[pathName]) {
 	  let available = Object.keys(gwc.userdata.stPathList || {}).sort();
-	  gwc.output.append("Path not found. Available paths: " + available.join(", "), recorderColor);
+	  append("Path not found. Available paths: " + available.join(", "), recorderColor);
 	  return;
 	}
 
@@ -286,7 +325,7 @@ else if (action === "show" || action === "list") {
 	};
 	let reversedPath = originalPath.slice().reverse().map(getReverseCommand);
 
-	gwc.output.append("Reversed walking path '" + pathName + "': " + reversedPath.join(", "), messageColor);
+	append("Reversed walking path '" + pathName + "': " + reversedPath.join(", "), messageColor);
 
 	// Execute commands with delay
 	reversedPath.forEach((command, index) => {
@@ -316,10 +355,10 @@ else if (action === "show" || action === "list") {
 	} else if (recorderAction === "save") {
 		savePathRecording(recorderPathName);
 	} else if (recorderAction === "stop") {
-		gwc.output.append("Recording stopped without saving.", recorderColor);
+		append("Recording stopped without saving.", recorderColor);
 		stopPathRecording();
 	} else {
-		gwc.output.append("Invalid command. Use 'pathrecord start', 'pathrecord save <name>', or 'pathrecord stop'.");
+		append("Invalid command. Use 'pathrecord start', 'pathrecord save <name>', or 'pathrecord stop'.");
 	}
 } 
 else if (action === "save"){
@@ -333,6 +372,6 @@ else if (action in gwc.userdata.stPathList) {
 } 
 else {
 	// Syntax error
-    gwc.output.append("Invalid command. Use 'paths' for usage info.");
+    append("Invalid command. Use 'paths' for usage info.");
 }
 }
