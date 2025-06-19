@@ -6,7 +6,7 @@ Highlights scry messages, puts them in comm window, optionally alerts your team 
 
 Name: Utility - Scry Detector
 Type: regexp
-Pattern: ^(You feel your wards against divination protect you from a scrying attempt\.|You sense someone trying to invade your mind\, but you successfully ward off the intruding presence\.|The eye on your ring glitters with a cold red light\.|You sense someone trying to divine your whereabouts, but you successfully ward off the intruding presence\.|You briefly feel an intruding presence seeking you out\, but the feeling passes|You sense an intruding presence in your mind|For a very brief moment, an alien presence enters your mind\! Flashes of unspeakable horrors torment you before the alien presence leaves you alone|You feel you are being watched\.|The gemstones of your torque burn with a sudden heat|An encircling clutch of midnight black crows appears overhead and slowly flies about|You sense you are being observed from the skies above you\.)
+Pattern: ^(You feel your wards against divination protect you from a scrying attempt\.|You sense someone trying to invade your mind\, but you successfully ward off the intruding presence\.|The eye on your ring glitters with a cold red light\.|You sense someone trying to divine your whereabouts, but you successfully ward off the intruding presence\.|You briefly feel an intruding presence seeking you out\, but the feeling passes|You sense an intruding presence in your mind|For a very brief moment, an alien presence enters your mind\! Flashes of unspeakable horrors torment you before the alien presence leaves you alone|You feel you are being watched\.|The gemstones of your torque burn with a sudden heat|An encircling clutch of midnight black crows appears overhead and slowly flies about|You sense you are being observed from the skies above you\.|You feel as if someone is looking at you from afar\.)
 
 Execute the following javascript:
 */
@@ -26,7 +26,8 @@ const translator = {
   'You feel you are being watched.':'CRYSTAL',
   'The gemstones of your torque burn with a sudden heat':'TORQUE',
   'An encircling clutch of midnight black crows appears overhead and slowly flies about':'MM',
-  'You sense you are being observed from the skies above you.':'HERALD'
+  'You sense you are being observed from the skies above you.':'HERALD',
+  'You feel as if someone is looking at you from afar.':'PALANTIR'
 };
 
 // highlights the message
