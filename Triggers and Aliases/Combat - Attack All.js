@@ -16,11 +16,16 @@ gwc.userdata.enemy=(args['*'])
 let enemy = args["*"] || gwc.userdata.enemy
 
 if(enemy.endsWith("f")){
-	enemy = enemy.replace(/f$/g,"ve") // fix for elves and dwarves
+	enemy = enemy.replace(/f$/g,"ve") // fix -f enemies (elf, dwarf)
 }
 if(enemy.endsWith("y")){
-  enemy = enemy.replace(/y$/g,"ie") // fix for trolobies and other stuff
+  enemy = enemy.replace(/y$/g,"ie") // fix for -y enemies (troloby)
 }
+
+if(enemy.endsWith("s")){
+  enemy = enemy.replace(/s$/g,"se") // fix for -s enemies (phrynos)
+}
+
 gwc.trigger.enable("Enemy Counter")
 
 if(enemy == "drow"){
