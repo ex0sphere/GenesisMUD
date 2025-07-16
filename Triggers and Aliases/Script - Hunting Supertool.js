@@ -3,6 +3,7 @@
 
 AUTHOR: Exosphere & feskslo
 REQUIRES: Combat - Kill Next Enemy.js (or a different "kill enemy on death" trigger)
+OPTIONAL: Utility - Heal Self to Full (integration to aid with solo hunting)
 Contains: 1 trigger, 1 alias
 
 Multi-functional hunting suite:
@@ -26,7 +27,8 @@ Pattern: (^You find no such living creature\.|(?<!He|She|It) is fighting (?!you)
 let path = gwc.userdata.currentPath
 
 let send = gwc.connection.send
-let occupied = args[1].includes("fighting")
+
+gwc.userdata.huntOccupied = args[1].includes("fighting")
 
 // Increases current room number by 1
 gwc.userdata.roomCounter +=1
@@ -40,14 +42,25 @@ function arrayToObject(arr) {
 
 function nextRoom(move){
 	gwc.output.append("Room: "+roomCounter)
-	if(!occupied){
-		setTimeout(()=>gwc.connection.send(gwc.userdata.killCommand + " " + gwc.userdata.enemy,true),gwc.userdata.huntDelay)
-	}
 	for (let i = 0; i < move.length; i++) {
 	gwc.connection.send(move[i],true)
 	}
+    setTimeout(()=> {
+    	if(gwc.userdata.huntOccupied){
+          gwc.userdata.huntOccupied = false
+        }
+      else {
+		gwc.connection.send(gwc.userdata.killCommand + " " + gwc.userdata.enemy,true)}
+        },gwc.userdata.huntDelay)
 }
 
+if(gwc.userdata.huntingSolo == true && mud.gmcp['char.vitals'].health != "feeling very well")
+{
+  gwc.userdata.roomCounter -= 1;
+  gwc.connection.send("hs",true)
+}
+else {
+    
 if(gwc.userdata.currentScript!="off") {
     
 if(roomCounter > path.length){
@@ -66,6 +79,7 @@ direction = direction.split("-")
 nextRoom(direction)
   }
 }
+}
 
 // ------------------------------------- //
 // ------------------------------------- //
@@ -79,6 +93,7 @@ USAGE:
     hunt         - show this menu
     hunt help    - help on how to add scripts
     hunt <name>  - start chosen script
+    hunt <name> solo - start script with self-healing between rooms (requires Utility - Heal Self to Full)
     hunt off     - turn off the script
     hunt command - (also cmd) set the current kill command (first word: ka or kill, second onwards: your chosen enemy)
     hunt list    - list scripts
@@ -258,6 +273,7 @@ Usage:
     ${aliasName}         - show this menu
     ${aliasName} help    - help on how to add scripts
     ${aliasName} <name>  - start chosen script
+    ${aliasName} <name> solo - start script with self-healing between rooms (requires Utility - Heal Self to Full)
     ${aliasName} off     - turn off the script
     ${aliasName} command - (also cmd) set the current kill command (first word: ka or kill, second onwards: your chosen enemy)
     ${aliasName} list    - list scripts
@@ -447,4 +463,12 @@ else if(args[1] in gwc.userdata.huntPathList) {
 else {
     append(`No such script found. Type ${aliasName} for help.`)
 }
+}
+
+if(args[2] == "solo"){
+  gwc.userdata.huntingSolo = true
+  gwc.output.append("Solo: "+gwc.userdata.huntingSolo)
+}
+else if(args[1] != "command" && args[1] != "cmd"){
+  gwc.userdata.huntingSolo = false
 }
