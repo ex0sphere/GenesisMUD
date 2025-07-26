@@ -114,4 +114,7 @@ gwc.output.append("Item: "+args['*']);
 gwc.output.append("Weapon damage:     "+dmg);
 gwc.output.append("Weapon accuracy:   "+acc);
 gwc.output.append("Armour protection: "+prot);
+gwc.userdata.weaponDamage = []
+gwc.userdata.weaponAccuracy = []
+gwc.userdata.armourProtection = []
 },timesToInspect*50+100)
