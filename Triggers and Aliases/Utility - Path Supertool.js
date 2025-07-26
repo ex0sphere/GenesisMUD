@@ -236,7 +236,7 @@ else if (action === "walk" && pathName) {
     const path = gwc.userdata.stPathList[pathName];
     if (!path) return append("Path not found.");
     path.forEach((cmd, i) =>
-        setTimeout(() => gwc.connection.send(cmd), i * delay)
+        setTimeout(() => gwc.connection.send(cmd,true), i * delay)
     );
     return append(`Walking path '${pathName}'...`);
 }
@@ -246,7 +246,7 @@ else if ((action === "r") && pathName) {
     const overrides = gwc.userdata.reverseOverrides[pathName] || {};
     const rev = resolveReversePath(path, overrides);
     rev.forEach((cmd, i) =>
-        setTimeout(() => gwc.connection.send(cmd), i * delay)
+        setTimeout(() => gwc.connection.send(cmd,true), i * delay)
     );
     return append(`Walking reversed path '${pathName}'...`);
 }
