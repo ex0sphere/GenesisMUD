@@ -304,7 +304,7 @@ else if (action === "show" || action === "list") {
     // Execute commands with delay
     path.forEach((command, index) => {
         setTimeout(() => {
-            gwc.connection.send(command);
+            gwc.connection.send(command,true);
             gwc.output.color('#991999');
         }, index * delay);
     });
@@ -323,7 +323,7 @@ else if (action === "show" || action === "list") {
         append("Custom reverse path '" + customReverseName + "': " + reversedPath.join(", "), messageColor);
         reversedPath.forEach((command, index) => {
             setTimeout(() => {
-                gwc.connection.send(command);
+                gwc.connection.send(command,true);
                 gwc.output.color(messageColor);
             }, index * delay);
         });
@@ -337,7 +337,7 @@ else if (action === "show" || action === "list") {
         append("Auto-reversed path '" + pathName + "': " + reversedPath.join(", "), messageColor);
         reversedPath.forEach((command, index) => {
             setTimeout(() => {
-                gwc.connection.send(command);
+                gwc.connection.send(command,true);
                 gwc.output.color(messageColor);
             }, index * delay);
         });
