@@ -1,5 +1,5 @@
 /*
-AUTHOR: feskslo, updated by Exosphere
+AUTHOR: feskslo, updated by Exosphere & Sonta
 Contains: 1 alias
 
 Ultimate path manager. Can walk and reverse-walk, record new paths, quickly add/remove/list paths.
