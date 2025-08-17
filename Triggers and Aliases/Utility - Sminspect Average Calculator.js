@@ -9,8 +9,7 @@ Safe to replace your "Translator - Blacksmith" trigger with this one.
 
 Name: Utility - Sminspect Average + Translator
 Type: regexp
-Pattern: ^(?:It is almost impossible to get a good strike with this weapon|It is difficult to use this weapon properly|It feels good when you wield this weapon--you would most likely have no trouble getting a good hit with this weapon|You should have no trouble handling this weapon--or making a cruel hit with it for that matter|Even an apprentice warrior could kill easily with this weapon|With this weapon almost every strike could be a killing blow|This weapon doesn&#39;t seem very effective|This weapon might do some damage with a lucky hit|This weapon seems quite effective|This weapon could most likely kill with a single swipe|This weapon is extremely powerful and more lethal than many of the famous weapons|With this weapon even a single warrior will be able to match a large force|This armour wouldn&#39;t even protect you from a very weak blow|This armour could perhaps reduce damage a little|This seems to be an armour of average quality|This armour would protect you very well|This is an extremely well-made armour which would protect you very well|Virtually nothing could harm you if you wore this armour).$
-
+Pattern: ^(?:It is almost impossible to get a good strike with this (?:weapon|unarmed enhancer)|It is difficult to use this (?:weapon|unarmed enhancer) properly|It feels good when you wield this (?:weapon|unarmed enhancer)--you would most likely have no trouble getting a good hit with this (?:weapon|unarmed enhancer)|You should have no trouble handling this (?:weapon|unarmed enhancer)--or making a cruel hit with it for that matter|Even an apprentice warrior could kill easily with this (?:weapon|unarmed enhancer)|With this (?:weapon|unarmed enhancer) almost every strike could be a killing blow|This (?:weapon|unarmed enhancer) doesn&#39;t seem very effective|This (?:weapon|unarmed enhancer) might do some damage with a lucky hit|This (?:weapon|unarmed enhancer) seems quite effective|This (?:weapon|unarmed enhancer) could most likely kill with a single swipe|This (?:weapon|unarmed enhancer) is extremely powerful and more lethal than many of the famous weapons|With this (?:weapon|unarmed enhancer) even a single warrior will be able to match a large force|This armour wouldn&#39;t even protect you from a very weak blow|This armour could perhaps reduce damage a little|This seems to be an armour of average quality|This armour would protect you very well|This is an extremely well-made armour which would protect you very well|Virtually nothing could harm you if you wore this armour).$
 Execute the following javascript:
 */
 
@@ -20,19 +19,31 @@ const a0 = args[0]
 // Convert sminspect text to numbers
 const weaponAccuracy = {
   'It is almost impossible to get a good strike with this weapon.':1,
+  'It is almost impossible to get a good strike with this unarmed enhancer.':1,
   'It is difficult to use this weapon properly.':2,
+  'It is difficult to use this unarmed enhancer properly.':2,
   'It feels good when you wield this weapon--you would most likely have no trouble getting a good hit with this weapon.':3,
+  'It feels good when you wield this unarmed enhancer--you would most likely have no trouble getting a good hit with this unarmed enhancer.':3,
   'You should have no trouble handling this weapon--or making a cruel hit with it for that matter.':4,
+  'You should have no trouble handling this unarmed enhancer--or making a cruel hit with it for that matter.':4,
   'Even an apprentice warrior could kill easily with this weapon.':5,
-  'With this weapon almost every strike could be a killing blow.':6
+  'Even an apprentice warrior could kill easily with this unarmed enhancer.':5,
+  'With this weapon almost every strike could be a killing blow.':6,
+  'With this unarmed enhancer almost every strike could be a killing blow.':6
 }
 const weaponDamage = {
   'This weapon doesn&#39;t seem very effective.':1,
+  'This unarmed enhancer doesn&#39;t seem very effective.':1,
   'This weapon might do some damage with a lucky hit.':2,
+  'This unarmed enhancer might do some damage with a lucky hit.':2,
   'This weapon seems quite effective.':3,
+  'This unarmed enhancer seems quite effective.':3,
   'This weapon could most likely kill with a single swipe.':4,
+  'This unarmed enhancer could most likely kill with a single swipe.':4,
   'This weapon is extremely powerful and more lethal than many of the famous weapons.':5,
-  'With this weapon even a single warrior will be able to match a large force.':6
+  'This unarmed enhancer is extremely powerful and more lethal than many of the famous weapons.':5,
+  'With this weapon even a single warrior will be able to match a large force.':6,
+  'With this unarmed enhancer even a single warrior will be able to match a large force.':6
 }
 const armourProtection = {
   'This armour wouldn&#39;t even protect you from a very weak blow.':1,
