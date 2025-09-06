@@ -27,15 +27,15 @@ if(args[2] == "default"){
   color = "#d0d0d0";
     size  = "14px";
     family = "Source Code Pro,monospace";
-    echo = "#d68936";
     shadow = "";
+    echo = "#d68936";
 }
 else {
   color = args["*"].replace("color","");
     size  = args["*"].replace("size","");
     family  = args["*"].replace("family","");
-    echo = args["*"].replace("echo","");
     shadow = args["*"].replace("shadow","");
+    echo = args["*"].replace("echo","");
 }
 switch(args[1]){
   case "color":
@@ -45,8 +45,8 @@ switch(args[1]){
     $("#mudoutput").css("font-size", size); break;
   case "family":
     $("#mudoutput").css("font-family", family); break;
-  case "echo":
-    $(".outgoing").css("color", echo); break;
   case "shadow":
     $("#mudoutput").css("text-shadow", shadow); break;
+  case "echo":
+    document.querySelector("head > style:nth-child(59)").innerHTML = `.outgoing{color: ${echo}}`
 }
