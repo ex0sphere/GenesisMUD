@@ -48,5 +48,5 @@ switch(args[1]){
   case "shadow":
     $("#mudoutput").css("text-shadow", shadow); break;
   case "echo":
-    document.querySelector("head > style:nth-child(59)").innerHTML = `.outgoing{color: ${echo}}`
+    $(`<style>.outgoing { color: ${echo}; }</style>`).appendTo('head');
 }
