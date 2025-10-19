@@ -41,7 +41,7 @@ function arrayToObject(arr) {
 }
 
 function nextRoom(move){
-	gwc.output.append("Room: "+roomCounter)
+	gwc.output.append("Room: "+roomCounter + "/" + path.length)
 	for (let i = 0; i < move.length; i++) {
 	gwc.connection.send(move[i],true)
 	}
@@ -94,7 +94,9 @@ USAGE:
     hunt help    - help on how to add scripts
     hunt <name>  - start chosen script
     hunt <name> solo - start script with self-healing between rooms (requires Utility - Heal Self to Full)
-    hunt off     - turn off the script
+    hunt pause   - pause by turning off the trigger
+    hunt resume  - unpause by turning on the trigger
+    hunt off     - end the script
     hunt command - (also cmd) set the current kill command (first word: ka or kill, second onwards: your chosen enemy)
     hunt list    - list scripts
     hunt add <name> hunt command <command>, <directions> - add a script
@@ -274,7 +276,9 @@ Usage:
     ${aliasName} help    - help on how to add scripts
     ${aliasName} <name>  - start chosen script
     ${aliasName} <name> solo - start script with self-healing between rooms (requires Utility - Heal Self to Full)
-    ${aliasName} off     - turn off the script
+    ${aliasName} pause   - pause by turning off the trigger
+    ${aliasName} resume  - unpause by turning on the trigger
+    ${aliasName} off     - end the script
     ${aliasName} command - (also cmd) set the current kill command (first word: ka or kill, second onwards: your chosen enemy)
     ${aliasName} list    - list scripts
     ${aliasName} add <name> ${aliasName} command <command>, <directions> - add a script
@@ -456,6 +460,18 @@ else if(args[1] in gwc.userdata.huntPathList) {
     append("Hunt started: "+args[1])
     gwc.trigger.enable(triggerName)
     gwc.connection.send("count enemies")
+}
+
+// PAUSE SCRIPT
+
+else if(args[1] == "pause"){
+    gwc.trigger.disable(triggerName)
+}
+
+// RESUME SCRIPT
+
+else if(args[1] == "resume"){
+    gwc.trigger.enable(triggerName)
 }
 
 // SHOW ERROR

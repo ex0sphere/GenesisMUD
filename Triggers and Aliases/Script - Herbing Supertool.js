@@ -30,10 +30,8 @@ function arrayToObject(arr) {
     );
 }
 
-gwc.output.append("echo: " + args[0])
-
 function nextRoom(move) {
-    gwc.output.append("Room: " + gwc.userdata.roomCounter);
+    gwc.output.append("Room: " + gwc.userdata.roomCounter + "/" + path.length);
 
     let i = 0;
     function sendStep() {
@@ -60,9 +58,9 @@ if (gwc.userdata.currentScript != "off") {
                 gwc.connection.send("!search here for " + gwc.userdata.herbCommand, true);
             }, 300);
         } else {
-            gwc.connection.send("open qarraba");
-            gwc.connection.send("put herb in qarraba");
-            gwc.connection.send("close qarraba");
+            //gwc.connection.send("open qarraba");
+            //gwc.connection.send("put herb in qarraba");
+            //gwc.connection.send("close qarraba");
             gwc.userdata.herbedtimes = gwc.userdata.herbedtimes + 1;
             if (gwc.userdata.herbedtimes < timesToHerb) {
                 gwc.connection.send("!search here for " + gwc.userdata.herbCommand, true);
