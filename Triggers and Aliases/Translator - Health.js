@@ -4,8 +4,7 @@ Contains: 1 trigger
 
 Colours and translates health into numbers.
 
-Pattern: \b(at death&#39;s door|barely alive|terribly hurt|in a very bad shape|in agony|in a bad shape|very hurt|suffering|hurt|aching|somewhat hurt|slightly hurt|sore|feeling well|feeling very well)\b
-
+Pattern: ^(?:(?:\(|\[)?(?:You|[A-Z][a-z]+|The .*)(?:\)|\])?) (?:are|is) (?:physically )?\b(at death&#39;s door|barely alive|terribly hurt|in a very bad shape|in agony|in a bad shape|very hurt|suffering|hurt|aching|somewhat hurt|slightly hurt|sore|feeling well|feeling very well)\b
 Execute the following javascript:
 */
 
