@@ -251,6 +251,44 @@ function stopPathRecording() {
 	$("#input").off("keydown.pathRecorder");  // Remove event listener
 }
 
+// Function to export data as .json
+function exportHuntPathList() {
+    const dataStr = JSON.stringify(gwc.userdata.huntPathList, null, 2);
+    const blob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "huntPathList.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+// Function to import data as .json
+function importHuntPathList(callback) {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json,application/json";
+    input.onchange = function (event) {
+        if (event.target.files && event.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    const result = JSON.parse(e.target.result);
+                    gwc.userdata.huntPathList = result;
+                    if (typeof callback === "function") callback(result);
+                } catch (err) {
+                    alert("Failed to import: Invalid JSON.");
+                }
+            };
+            reader.readAsText(event.target.files[0]);
+        }
+    };
+    input.click();
+}
+
+
 
 // Main logic - block switching based on action argument
 
@@ -272,6 +310,7 @@ if (!action) {
     let output = 
 `
 Usage:
+    --Controls:
     ${aliasName}         - show this menu
     ${aliasName} help    - help on how to add scripts
     ${aliasName} <name>  - start chosen script
@@ -280,14 +319,22 @@ Usage:
     ${aliasName} resume  - unpause by turning on the trigger
     ${aliasName} off     - end the script
     ${aliasName} command - (also cmd) set the current kill command (first word: ka or kill, second onwards: your chosen enemy)
+    --List:
     ${aliasName} list    - list scripts
     ${aliasName} add <name> ${aliasName} command <command>, <directions> - add a script
         Example: ${aliasName} add gk ${aliasName} command ka undead, e, w, w, sw 
         See '${aliasName} help' for more details.
     ${aliasName} remove <name> - remove a script
+    --Recording:
     ${aliasName} record      - start recording commands, start with '${aliasName} command <command> <enemy>'
     ${aliasName} save <name> - save recorded script
     ${aliasName} stop        - stop recording and DISCARD recorded actions
+    --Storage:
+    ${aliasName} initialize  - reset all saved data
+    ${aliasName} restore     - restore data from browser backup
+    ${aliasName} export      - export data as .json file
+    ${aliasName} import      - import .json from computer
+
     
 `;
 append(output);
@@ -474,6 +521,20 @@ else if(args[1] == "resume"){
     gwc.trigger.enable(triggerName)
 }
 
+// EXPORT DATA
+
+else if(args[1] == "export"){
+    exportHuntPathList()
+    append("Exporting hunt paths to .json file.")
+}
+
+// IMPORT DATA
+
+else if(args[1] == "import"){
+    importHuntPathList()
+    append("Importing hunt paths from .json file.")
+}
+
 // SHOW ERROR
 
 else {
@@ -483,7 +544,7 @@ else {
 
 if(args[2] == "solo"){
   gwc.userdata.huntingSolo = true
-  gwc.output.append("Solo: "+gwc.userdata.huntingSolo)
+  append("Solo: "+gwc.userdata.huntingSolo)
 }
 else if(args[1] != "command" && args[1] != "cmd"){
   gwc.userdata.huntingSolo = false
