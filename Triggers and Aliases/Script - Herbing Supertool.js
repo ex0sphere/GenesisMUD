@@ -258,6 +258,43 @@ function stopPathRecording() {
     $("#input").off("keydown.pathRecorder");  // Remove event listener
 }
 
+// Function to export data as .json
+function exportHerbPathList() {
+    const dataStr = JSON.stringify(gwc.userdata.herbPathList, null, 2);
+    const blob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "herbPathList.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+// Function to import data as .json
+function importHerbPathList(callback) {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json,application/json";
+    input.onchange = function (event) {
+        if (event.target.files && event.target.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    const result = JSON.parse(e.target.result);
+                    gwc.userdata.herbPathList = result;
+                    if (typeof callback === "function") callback(result);
+                } catch (err) {
+                    alert("Failed to import: Invalid JSON.");
+                }
+            };
+            reader.readAsText(event.target.files[0]);
+        }
+    };
+    input.click();
+}
+
 // Ensure path storage exists
 if (!gwc.userdata.herbPathList && action != "initialize" && action != "restore") {
     let output =
@@ -268,6 +305,7 @@ if (!gwc.userdata.herbPathList && action != "initialize" && action != "restore")
     `
     append(output);
 }
+
 else {
 
     // Main logic - block switching based on action argument
@@ -276,24 +314,30 @@ else {
 
     if (!action) {
         let output =
-            `
-    Usage:
-        ${aliasName}         - show this menu
-        ${aliasName} help    - help on how to add scripts
-        ${aliasName} <name> [herb name] - start chosen script (optionally set herb)
-        ${aliasName} command <herb name> - set the herb name to search (multi-word supported)
-        ${aliasName} times   - set how many times to herb in a room
-        ${aliasName} off     - turn off the script
-        ${aliasName} list     - list scripts
-        ${aliasName} add <name> <directions> - add a script
-            Example: ${aliasName} add forest, e, w, w, sw
-            See '${aliasName} help' for more details.
-        ${aliasName} remove <name> - remove a script
-        ${aliasName} record      - start recording commands, start with '${aliasName} command <herb>'
-        ${aliasName} save <name> - save recorded script
-        ${aliasName} stop        - stop recording and DISCARD recorded actions
-        ${aliasName} export         - export all paths to a base64 string
-        ${aliasName} import <data> - import path list from a base64 string
+`
+Usage:
+--Controls:
+    ${aliasName}         - show this menu
+    ${aliasName} help    - help on how to add scripts
+    ${aliasName} <name> [herb name] - start chosen script (optionally set herb)
+    ${aliasName} command <herb name> - set the herb name to search (multi-word supported)
+    ${aliasName} times   - set how many times to herb in a room
+    ${aliasName} off     - turn off the script
+--Path List:
+    ${aliasName} list     - list scripts
+    ${aliasName} add <name> <directions> - add a script
+        Example: ${aliasName} add forest, e, w, w, sw
+        See '${aliasName} help' for more details.
+    ${aliasName} remove <name> - remove a script
+--Recording:
+    ${aliasName} record      - start recording commands, start with '${aliasName} command <command> <enemy>'
+    ${aliasName} save <name> - save recorded script
+    ${aliasName} stop        - stop recording and DISCARD recorded actions
+--Storage:
+    ${aliasName} initialize  - reset all saved data
+    ${aliasName} restore     - restore data from browser backup
+    ${aliasName} export      - export data as .json file
+    ${aliasName} import      - import .json from computer
     `;
         append(output);
     }
@@ -471,34 +515,18 @@ else {
         gwc.trigger.enable(triggerName);
     }
 
-    // EXPORT PATHS AS BASE64
-    else if (action === "export") {
-        if (!gwc.userdata.herbPathList || Object.keys(gwc.userdata.herbPathList).length === 0) {
-            append("Nothing to export.");
-        } else {
-            const json = JSON.stringify(gwc.userdata.herbPathList);
-            const encoded = btoa(unescape(encodeURIComponent(json)));
-            append("Exported base64 string (copy & save):");
-            append(encoded, "#d0ffba");
-        }
+    // EXPORT DATA
+
+    else if(args[1] == "export"){
+        exportHerbPathList()
+        append("Exporting herb paths to .json file.")
     }
 
-    // IMPORT PATHS FROM BASE64
-    else if (action === "import") {
-        const encoded = args['*'].replace("import", "").trim();
-        try {
-            const decoded = decodeURIComponent(escape(atob(encoded)));
-            const imported = JSON.parse(decoded);
-            if (typeof imported === "object") {
-                gwc.userdata.herbPathList = imported;
-                append("Import successful.");
-                save("herbPathList", imported);
-            } else {
-                append("Decoded data is not a valid object.");
-            }
-        } catch (e) {
-            append("Failed to import: " + e.message);
-        }
+    // IMPORT DATA
+
+    else if(args[1] == "import"){
+        importHerbPathList()
+        append("Importing herb paths from .json file.")
     }
 
     // SHOW ERROR
