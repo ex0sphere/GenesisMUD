@@ -310,7 +310,7 @@ if (!action) {
     let output = 
 `
 Usage:
-    --Controls:
+--Controls:
     ${aliasName}         - show this menu
     ${aliasName} help    - help on how to add scripts
     ${aliasName} <name>  - start chosen script
@@ -319,17 +319,17 @@ Usage:
     ${aliasName} resume  - unpause by turning on the trigger
     ${aliasName} off     - end the script
     ${aliasName} command - (also cmd) set the current kill command (first word: ka or kill, second onwards: your chosen enemy)
-    --List:
+--Path List:
     ${aliasName} list    - list scripts
     ${aliasName} add <name> ${aliasName} command <command>, <directions> - add a script
         Example: ${aliasName} add gk ${aliasName} command ka undead, e, w, w, sw 
         See '${aliasName} help' for more details.
     ${aliasName} remove <name> - remove a script
-    --Recording:
+--Recording:
     ${aliasName} record      - start recording commands, start with '${aliasName} command <command> <enemy>'
     ${aliasName} save <name> - save recorded script
     ${aliasName} stop        - stop recording and DISCARD recorded actions
-    --Storage:
+--Storage:
     ${aliasName} initialize  - reset all saved data
     ${aliasName} restore     - restore data from browser backup
     ${aliasName} export      - export data as .json file
